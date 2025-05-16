@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/entrada-de-dados.css">
+    <script src="/js/entrada-de-dados.js"></script>
+    <title>Produto Adicionais</title>
+</head>
+<body>
+    <div>
+        <h1 id="titulo">Purple</h1>
+            <div id="corpo">
+                <h2 id="titulo">Tipos de Ingressos</h2>
+                <label for="">Tipo de Ingressos:</label>
+                <select name="ingresso_tipo" id="tipo_ingresso">
+                    <option value="">Selecione o tipo de ingresso</option>
+                    <option value="Ingresso Pista">Ingresso Pista</option>
+                    <option value="Ingresso Front">Ingresso Front</option>
+                    <option value="Ingresso Camarote">Ingresso Camarote</option>
+                    <option value="Ingresso Backstage">Ingresso Backstage</option>
+                    <option value="Ingresso Estudante">Ingresso Estudante</option>
+                    <option value="Ingresso Meia-Entrada">Ingresso Meia-Entrada</option>
+                    <option value="Ingresso VIP">Ingresso VIP</option>
+                </select>
+                <label for="">Preço:</label>
+                <input type="number" id="preco" name="preco">
+                <label for="">Quantidade disponível:</label>
+                <input type="number" id="quantidade" name="quantidade">
+                <label for="">Vendido:</label>
+                <input type="number" id="vendido" name="vendido">
+                <label for="">Meta de venda:</label>
+                <input type="number" id="meta_venda" name="meta_venda">
+                <div id="botao-container">
+                <button type="button" id="adicionar" onclick="adicionar_ingresso()">Adicionar</button>
+                    <a href="produto-adicionais.html">
+                        <button type="button" id="botao-princ" onclick="cadastrar_ingressos()">Avançar</button>
+                    </a>
+                </div>
+            </div>
+    </div>
+</body>
+</html>

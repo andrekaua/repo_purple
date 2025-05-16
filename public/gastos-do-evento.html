@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/entrada-de-dados.css">
+    <script src="/js/entrada-de-dados.js"></script>
+    <title>Gastos do Evento</title>
+</head>
+<body>
+    <div>
+        <h1 id="logo">Purple</h1>
+            <div id="corpo">
+                <h2 id="titulo">Custo Geral</h2>
+                <label for="">Nome:</label>
+                <input type="text" id="gasto_nome" name="aluguel">
+                <label for="">Custo:</label>
+                <input type="number" id="gasto_valor" >
+                <div id="botao-container">
+                <button type="button" id="adicionar" onclick="adicionar_gastos()">Adicionar</button>
+                    <a href="tipo-de-ingresso.html">
+                        <button type="button" id="botao-princ" onclick="cadastrar_gastos()">Avançar</button>
+                    </a>
+                </div>
+            </div>
+    </div>
+</body>
+</html>

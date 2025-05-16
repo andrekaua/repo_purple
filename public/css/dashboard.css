@@ -1,0 +1,255 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #1B0029, #2C003E);
+  color: white;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+#logo {
+  text-align: left;
+  font-weight: bold;
+  font-size: 50px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+#eventos {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.evento {
+  background-color: #7b1988;
+  text-decoration: none;
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  border-radius: 10px;
+  font-size: 17px;
+  cursor: pointer;
+  transition: 0.5s;
+  font-weight: bold;
+}
+
+.evento:hover {
+  background-color: #c72edb;
+  padding: 15px 25px;
+}
+
+#evento-nome-data {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 40px;
+  color: #ffffff;
+}
+
+#kpis {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.kpi {
+  background: linear-gradient(60deg, #560c67, #50075a);
+  border-radius: 15px;
+  padding: 15px;
+  width: 220px;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(106, 19, 152, 0.4);
+  transition: 0.5s;
+}
+
+.kpi:hover {
+  transform: translateY(-10px);
+  background: linear-gradient(60deg, #c72edb, #a020ba);
+  color: white;
+}
+
+.kpi h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.kpi p {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.progress-container {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  height: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #fb3c3c;
+  transition: width 0.5s ease-in-out;
+}
+
+#secao-analise-financeira h3,
+#secao-venda h3 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #cb4cdc;
+}
+
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+#vendas-de-ingresso,
+#venda-de-produto {
+  width: 450px;
+}
+
+/* NOVA SEÇÃO PARA ORGANIZAR EM COLUNAS */
+#analise-e-venda {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+#secao-analise-financeira,
+#secao-venda {
+  flex-direction: column;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+/* ANTIGAS SEÇÕES MANTIDAS, MAS NÃO PRECISAM MAIS CONTROLAR A FLEX PRINCIPAL */
+#secao-analise-financeira {
+  margin-bottom: 40px;
+}
+
+#analises {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.detalhe-financeiro {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  width: 100%;
+  max-width: 350px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(106, 19, 152, 0.4);
+  transition: 0.3s;
+}
+
+.detalhe-financeiro:hover {
+  transform: translateY(-10px);
+  background: linear-gradient(180deg, #36033d, #1a0020);
+  box-shadow: 0 15px 25px rgba(145, 20, 167, 0.6);
+}
+
+#secao-venda {
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#analise-venda {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap; /* quebra em telas pequenas */
+  margin-top: 20px;
+}
+
+#secao-analise-financeira,
+#secao-venda {
+  flex: 1;
+  min-width: 300px;
+  background-color: #1e0033;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+#analises {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.detalhe-financeiro {
+  flex: 1;
+  min-width: 200px;
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+  #logo {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+
+  #evento-nome-data {
+    font-size: 2rem;
+  }
+
+  #kpis {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kpi {
+    width: 90%;
+    max-width: 350px;
+  }
+
+  #analises {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .detalhe-financeiro {
+    width: 90%;
+  }
+
+  #secao-venda {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #eventos {
+    flex-direction: column;
+    align-items: flex-end;
+    top: 10px;
+  }
+
+  #analise-e-venda {
+    flex-direction: column;
+    align-items: center;
+  }
+}

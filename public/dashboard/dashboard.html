@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <title>Dashboard</title>
+</head>
+<body>
+  
+  <h1 id="logo">Purple</h1>
+  <div id="eventos">
+    <a href="#" class="evento">Ver outro evento</a>
+    <a href="../editar-evento.html" class="evento">Editar Evento</a>
+  </div>
+  <h2 id="evento-nome-data">Festa do tio patinha - 19/5</h2>
+
+  <section id="kpis">
+    <div class="kpi">
+      <h3>Gastos Totais</h3>
+      <p class="dinheiro">13.000</p>
+      <div class="progress-container">
+        <div class="progress-bar" style="width: 30%;"></div>
+      </div>
+    </div>
+    <div class="kpi">
+      <h3>Receita Atual</h3>
+      <p class="dinheiro">13.000</p>
+      <div class="progress-container">
+        <div class="progress-bar" style="width: 50%;"></div>
+      </div>
+    </div>
+    <div class="kpi">
+      <h3>Status Financeiro</h3>
+      <p>Bom</p>
+    </div>
+    <div class="kpi">
+      <h3>Lucro Atual</h3>
+      <p class="dinheiro">13.000</p>
+      <div class="progress-container">
+        <div class="progress-bar" style="width: 10%;"></div>
+      </div>
+    </div>
+  </section>
+
+
+<div id="analise-venda">
+  <div id="secao-analise-financeira">
+    <div id="analises">
+      <div class="detalhe-financeiro">
+        <h3>Gastos</h3>
+        <canvas id="detalhamento-Gastos"></canvas>
+      </div>
+      <div class="detalhe-financeiro">
+        <h3>Receita</h3>
+        <canvas id="detalhamento-Receita"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div id="secao-venda">
+    <div>
+      <h3>Venda de Ingressos por Categoria</h3>
+      <canvas id="vendas-de-ingresso"></canvas>
+    </div>
+
+    <div>
+      <h3>Venda de produtos adicionais</h3>
+      <canvas id="venda-de-produto"></canvas>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Gráfico de Gastos
+    new Chart(document.getElementById("detalhamento-Gastos"), {
+      type: "doughnut",
+      data: {
+        labels: ["Bebidas", "DJ", "Decoração", "Segurança"],
+        datasets: [{
+          label: "Gastos (R$)",
+          data: [500, 300, 200, 150],
+          backgroundColor: ["#e74c3c", "#3498db", "#f1c40f", "#9b59b6"]
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { position: "right" }
+        }
+      }
+    });
+
+    // Gráfico de Receita
+    new Chart(document.getElementById("detalhamento-Receita"), {
+      type: "doughnut",
+      data: {
+        labels: ["Ingressos", "Produtos"],
+        datasets: [{
+          label: "Receita (R$)",
+          data: [2000, 450],
+          backgroundColor: ["#2ecc71", "#1abc9c"]
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { position: "right" }
+        }
+      }
+    });
+
+    // Gráfico de Ingressos
+    new Chart(document.getElementById("vendas-de-ingresso"), {
+      type: "bar",
+      data: {
+        labels: ["Pista", "Camarote", "VIP"],
+        datasets: [
+          {
+            label: "Ingressos Vendidos",
+            data: [120, 60, 30],
+            backgroundColor: ["#8e44ad", "#8e44ad", "#8e44ad"],
+            borderRadius: 5
+          },
+          {
+            label: "Meta",
+            data: [150, 100, 50],
+            backgroundColor: "rgba(200, 200, 200, 0.4)",
+            borderSkipped: false,
+            borderRadius: 5
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'top' }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+
+    // Gráfico de Produtos
+    new Chart(document.getElementById("venda-de-produto"), {
+      type: 'bar',
+      data: {
+        labels: ['Dose', 'Shot', 'Narguile'],
+        datasets: [
+          {
+            label: 'Meta',
+            data: [25, 25, 35],
+            backgroundColor: 'rgba(200, 200, 200, 0.4)',
+            borderSkipped: false
+          },
+          {
+            label: 'Vendas',
+            data: [10, 20, 30],
+            backgroundColor: ['#6a0dad', '#6a0dad', '#6a0dad'],
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+          legend: { position: 'top' }
+        },
+        scales: {
+          x: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background: #1B0029;
+  color: white;
+}
+
+/* Hero */
+#hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), #1B0029), 
+              url('../assets/Multidão\ Energética\ Sob\ Luz\ Roxa.png') center/cover no-repeat;
+  min-height: 100vh;
+  color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+#hero nav {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border-radius: 10px;
+  font-size: 27px;
+  padding: 10px 15px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0 8px;
+  transition: 1s;
+}
+
+
+nav a:hover{
+    color: #E72FFF;
+}
+
+/* Título */
+h1 {
+  font-size: 100px;
+  margin-bottom: 10px;
+}
+
+#apresent {
+  font-size: 28px;
+  max-width: 680px;
+  margin: 10px auto;
+  font-weight: lighter;
+}
+
+.roxo {
+  color: #E72FFF;
+}
+
+#conhecer {
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 30px;
+  color: white;
+  transition: 1s;
+}
+
+#conhecer:hover{
+    color: #E72FFF;
+    text-shadow: 5px 5px 40px #E72FFF;
+}
+
+/* Quem somos */
+#quem-somos {
+  padding: 10px;
+  text-align: center;
+  max-width: 800px;
+  margin: auto;
+}
+
+h2 {
+  font-size: 60px;
+  font-weight: lighter;
+  margin-bottom: 20px;
+}
+
+#oque-e {
+  font-size: 26px;
+  margin-top: 10px;
+}
+
+/* Serviços */
+#servicos {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.servico {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 400px;
+}
+
+.caixas-servicos {
+    display: flex;
+    justify-content: center;
+    gap: 55px;
+    flex-wrap: wrap;
+  }
+  
+  .caixa {
+    border: 3px solid #fff;
+    padding: 20px;
+    text-align: center;
+    width: 200px;
+    background-color: #1B0029; /* cor escura como fundo */
+    border-radius: 8px;
+    transition: 0.3s ease;
+  }
+
+  .caixa:hover {
+    background-color: #26013f;
+    box-shadow: 5px 5px 30px #E72FFF;
+    transform: scale(1.10);
+  }
+
+  .caixa p {
+    font-size: 21px;
+    font-weight: bold;
+    color: white;
+  }
+
+/* Convite final */
+#convite {
+  text-align: center;
+  max-width: 800px;
+  margin: auto;
+}
+
+#p-convite {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.cadastrar {
+  display: inline-block;
+  border-radius: 15px;
+  padding: 20px 40px;
+  background-color: #6215a1;
+  color: white;
+  font-weight: bold;
+  font-size: 25px;
+  text-decoration: none;
+  transition: background 0.3s;
+  margin-bottom: 20px;
+  transition: 1s;
+}
+
+.cadastrar:hover {
+    background-color: #7a1dd3;
+    text-shadow: 5px 5px 40px #E72FFF; 
+}
+
+
+/* Responsivo */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 60px;
+  }
+
+  #apresent, #oque-e, #p-convite {
+    font-size: 20px;
+  }
+
+  .servico {
+    gap: 20px;
+  }
+
+  nav {
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  .cadastrar {
+    font-size: 18px;
+    padding: 12px 20px;
+  }
+}

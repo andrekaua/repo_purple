@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    background: #1B0029;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+#logo {
+    margin-bottom: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    font-size: 70px;
+    color: white;
+}
+
+#titulo {
+    font-size: 53px;
+    margin-bottom: 20px;
+    color: white;
+    text-align: center;
+}
+
+#corpo {
+    display: flex;
+    flex-direction: column;
+    background-color: #7c098b;
+    padding: 50px;
+    border-radius: 20px;
+    opacity: 0.9;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+label{
+    font-size: 22px;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 500px;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #fff;
+    color: #000;
+    font-size: 16px;
+}
+
+button{
+    width: 220px;
+    height: 50px;
+    background-color: #550560;
+    color: white;
+    font-size: 27px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#botao-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 100%;
+}
+
+#h2-edicao{
+    font-size: 50px;
+    color: white;
+    text-align: center;
+    margin-top: -30px;
+}
+
+.link-pagina{
+    margin-top: 30px;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    transition: color 0.3s ease;
+    background-color: #e101ff;
+    padding: 15px;
+    border-radius: 20px;
+    transition: background-color 0.5s ease;
+}
+
+.link-pagina:hover{
+    background-color: #550560;
+    text-shadow: 5px 5px 40px #E72FFF;
+}
+a{
+    text-decoration: none;
+}

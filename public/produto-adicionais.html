@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/entrada-de-dados.css">
+    <script src="js/entrada-de-dados.js"></script>
+    <title>Produto Adicionais</title>
+</head>
+<body>
+    <div>
+        <h1 id="titulo">Purple</h1>
+            <div id="corpo">
+                <h2 id="titulo">Produto Adicionais</h2>
+
+                    <label for="">Nome do produto:</label>
+                        <input type="text" id="produto" name="produto">
+
+                    <label for="">Preço unitário (R$):</label>
+                        <input type="text" id="preco_unitario" name="preco_unitario">
+
+                    <label for="">Vendido:</label>
+                        <input type="number" id="vendido" name="vendido">
+                        
+                    <label for="">Meta de venda:</label>
+                        <input type="text" id="meta_venda" name="meta_venda">
+                        
+                <div id="botao-container">
+                        <button type="button" id="adicionar" onclick="adicionar_produto()">Adicionar</button>
+                    <a href="dashboard/dashboard.html">
+                        <button type="button" id="botao-princ" onclick="cadastrar_produtos()">Avançar</button>
+                    </a>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
