@@ -41,4 +41,3 @@ function cadastrar_ingressos() {
         let qntdd_de_ingresso_vendido = document.getElementById("vendido").value
         let meta_de_venda_de_ingresso = document.getElementById("Meta de venda").value
 }
-

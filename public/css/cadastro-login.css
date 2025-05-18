@@ -34,6 +34,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
   }
 
   .right h1 {
@@ -45,7 +46,7 @@
   .form {
     display: flex;
     flex-direction: column;
-    margin-bottom: 45px;
+    margin-bottom: 50px;
   }
 
   label {
@@ -62,13 +63,24 @@
     padding: 15px;
     border: none;
     border-radius: 10px;
-    color: #000;
+    color: #ffffff;
     width: 650px;
+    margin-bottom: 2px;
+    background-color: #3B0864;
+    transition: 0.7s;
+  }
+
+  input:hover,
+  select:hover {
+    background-color: #7a1dd3;
+    box-shadow: 0 0 7px 2px #831fe0;
+    transform: scale(1.07);
+    font-size: 19px;
   }
   
   input::placeholder, select::placeholder {
     font-size: 15px;
-    color: black;
+    color: rgb(255, 255, 255);
   }
 
   input::placeholder:hover, select::placeholder:hover {
@@ -76,7 +88,7 @@
   }
 
   button {
-    left: 280px;
+    left: 250px;
     border-radius: 15px;
     padding: 15px;
     background-color: #3B0864;
@@ -107,6 +119,9 @@
   }
 
   #cadastro{
+    position: absolute;
+    top: -100px;
+    left: 520px;
     border-radius: 15px;
     padding: 14px;
     background-color: #3B0864;
@@ -139,6 +154,7 @@
     font-weight: bold;
     padding: 5px;
     border-radius: 5px;
+    justify-content: center;
     text-align: center;
 }
   
