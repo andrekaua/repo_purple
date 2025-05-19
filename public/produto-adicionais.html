@@ -4,34 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/entrada-de-dados.css">
-    <script src="js/entrada-de-dados.js"></script>
-    <title>Produto Adicionais</title>
+    <script src="js/produtos.js"></script>
+    <title>Produtos Adicionais</title>
 </head>
 <body>
     <div>
         <h1 id="titulo">Purple</h1>
-            <div id="corpo">
-                <h2 id="titulo">Produto Adicionais</h2>
+        <div id="corpo">
+            <h2>Produtos Adicionais</h2>
 
-                    <label for="">Nome do produto:</label>
-                        <input type="text" id="produto" name="produto">
+            <label for="produto">Nome do produto:</label>
+            <input type="text" id="produto" name="produto">
 
-                    <label for="">Preço unitário (R$):</label>
-                        <input type="text" id="preco_unitario" name="preco_unitario">
+            <label for="preco_unitario">Preço unitário (R$):</label>
+            <input type="number" id="preco_unitario" name="preco_unitario" step="0.01" min="0">
 
-                    <label for="">Vendido:</label>
-                        <input type="number" id="vendido" name="vendido">
-                        
-                    <label for="">Meta de venda:</label>
-                        <input type="text" id="meta_venda" name="meta_venda">
-                        
-                <div id="botao-container">
-                        <button type="button" id="adicionar" onclick="adicionar_produto()">Adicionar</button>
-                    <a href="dashboard/dashboard.html">
-                        <button type="button" id="botao-princ" onclick="cadastrar_produtos()">Avançar</button>
-                    </a>
-                </div>
+            <label for="vendido">Vendido:</label>
+            <input type="number" id="vendido" name="vendido" min="0">
+
+            <label for="meta_venda">Meta de venda:</label>
+            <input type="number" id="meta_venda" name="meta_venda" min="0">
+
+            <!-- Tabela para visualizar os produtos adicionados -->
+            <table id="tabela_produtos" border="1" style="margin-top:20px;width:100%;text-align:center;">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Preço Unitário (R$)</th>
+                        <th>Vendido</th>
+                        <th>Meta de Venda</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Os produtos adicionados aparecerão aqui -->
+                </tbody>
+            </table>
+
+            <div id="botao-container">
+                <button type="button" id="adicionar" onclick="adicionar_produto()">Adicionar</button>
+                <button type="button" id="botao-princ" onclick="if(cadastrar_produtos()){window.location.href='dashboard/dashboard.html'}">Avançar</button>
             </div>
+        </div>
     </div>
 </body>
 </html>
