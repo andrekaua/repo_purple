@@ -127,4 +127,5 @@ window.onload = function() {
         listaProdutos = dados.produtos || [];
         atualizarTabelaProdutos();
     }
+    
 };
