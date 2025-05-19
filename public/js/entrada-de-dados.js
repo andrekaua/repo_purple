@@ -16,7 +16,8 @@ function adicionar_gastos() {
     // Criar um objeto para o gasto
     let gasto = {
         nome: gasto_nome,
-        valor: gasto_valor
+        valor: gasto_valor,
+        descricao: ""  // Adicionando campo de descrição, pode ser vazio
     };
     
     // Adicionar o gasto ao array
@@ -99,7 +100,7 @@ function excluirGasto(indice) {
     }
 }
 
-// Função para cadastrar todos os gastos
+// Função para cadastrar todos os gastos no servidor
 function cadastrar_gastos() {
     // Verificar se há gastos para cadastrar
     if (listaGastos.length === 0) {
@@ -107,44 +108,53 @@ function cadastrar_gastos() {
         return false;
     }
     
+    // Obter o ID do evento do input ou do localStorage
+    const evento_id = document.getElementById("evento_id").value || sessionStorage.getItem("evento_id");
+    
+    if (!evento_id) {
+        alert("É necessário ter um evento cadastrado primeiro!");
+        return false;
+    }
+    
     // Criar um objeto com todos os gastos
     let dados = {
-        gastos: listaGastos,
-        total: calcularTotal()
+        evento_id: evento_id,
+        gastos: listaGastos
     };
     
-    // Converter para JSON
-    let dadosJSON = JSON.stringify(dados);
-    
-    // Aqui você enviaria os dados para o servidor
-    console.log("Dados prontos para enviar:", dadosJSON);
-    
-    // Para salvar temporariamente no localStorage (apenas para demonstração)
-    localStorage.setItem("dadosGastos", dadosJSON);
-    
-    alert("Gastos cadastrados com sucesso!");
-    return true;    
-}
-
-// Função para calcular o total dos gastos
-function calcularTotal() {
-    let total = 0;
-    for (let gasto of listaGastos) {
-        total += gasto.valor;
-    }
-    return total;
-}
-
-// Inicializar a tabela quando a página carregar
-window.onload = function() {
-    // Verificar se há dados salvos no localStorage
-    let dadosSalvos = localStorage.getItem("dadosGastos");
-    if (dadosSalvos) {
-        let dados = JSON.parse(dadosSalvos);
-        listaGastos = dados.gastos;
+    // Enviar dados para o servidor via fetch API
+    fetch("/entrada-dados/cadastrarGastos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dados)
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json();
+        } else {
+            throw new Error("Erro ao cadastrar gastos!");
+        }
+    })
+    .then(resposta => {
+        console.log("Resposta do servidor:", resposta);
+        alert("Gastos cadastrados com sucesso!");
+        
+        // Limpar a lista após cadastro bem-sucedido
+        listaGastos = [];
         atualizarTabela();
-    }
-};
+        
+        // Redirecionar ou continuar para a próxima etapa
+        // window.location.href = "proxima-pagina.html";
+    })
+    .catch(erro => {
+        console.error("Erro:", erro);
+        alert("Erro ao cadastrar gastos. Por favor, tente novamente.");
+    });
+    
+    return true;
+}
 
 // Array para armazenar todos os ingressos
 let listaIngressos = [];
@@ -193,7 +203,7 @@ function adicionar_ingresso() {
     document.getElementById("meta_venda").value = "";
 }
 
-// Função para atualizar a tabela de ingressos (adicione uma tabela no HTML se quiser visualizar)
+// Função para atualizar a tabela de ingressos
 function atualizarTabelaIngressos() {
     let tabela = document.getElementById("tabela_ingressos");
     if (!tabela) return; // Se não existir tabela, não faz nada
@@ -251,38 +261,59 @@ function excluirIngresso(indice) {
     }
 }
 
-// Função para cadastrar todos os ingressos
+// Função para cadastrar todos os ingressos no servidor
 function cadastrar_ingressos() {
     if (listaIngressos.length === 0) {
         alert("Adicione pelo menos um ingresso antes de avançar!");
         return false;
     }
 
+    // Obter o ID do evento do input ou do localStorage
+    const evento_id = document.getElementById("evento_id").value || sessionStorage.getItem("evento_id");
+    
+    if (!evento_id) {
+        alert("É necessário ter um evento cadastrado primeiro!");
+        return false;
+    }
+
     let dados = {
+        evento_id: evento_id,
         ingressos: listaIngressos
     };
 
-    let dadosJSON = JSON.stringify(dados);
+    // Enviar dados para o servidor via fetch API
+    fetch("/entrada-dados/cadastrarIngressos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dados)
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json();
+        } else {
+            throw new Error("Erro ao cadastrar ingressos!");
+        }
+    })
+    .then(resposta => {
+        console.log("Resposta do servidor:", resposta);
+        alert("Ingressos cadastrados com sucesso!");
+        
+        // Limpar a lista após cadastro bem-sucedido
+        listaIngressos = [];
+        atualizarTabelaIngressos();
+        
+        // Redirecionar ou continuar para a próxima etapa
+        // window.location.href = "proxima-pagina.html";
+    })
+    .catch(erro => {
+        console.error("Erro:", erro);
+        alert("Erro ao cadastrar ingressos. Por favor, tente novamente.");
+    });
 
-    // Aqui você enviaria os dados para o servidor
-    console.log("Dados prontos para enviar:", dadosJSON);
-
-    // Salvar temporariamente no localStorage
-    localStorage.setItem("dadosIngressos", dadosJSON);
-
-    alert("Ingressos cadastrados com sucesso!");
     return true;
 }
-
-// Inicializar a lista quando a página carregar
-window.onload = function() {
-    let dadosSalvos = localStorage.getItem("dadosIngressos");
-    if (dadosSalvos) {
-        let dados = JSON.parse(dadosSalvos);
-        listaIngressos = dados.ingressos || [];
-        atualizarTabelaIngressos();
-    }
-};
 
 // Array para armazenar todos os produtos
 let listaProdutos = [];
@@ -327,7 +358,7 @@ function adicionar_produto() {
     document.getElementById("meta_venda").value = "";
 }
 
-// Função para atualizar a tabela de produtos (adicione uma tabela no HTML se quiser visualizar)
+// Função para atualizar a tabela de produtos
 function atualizarTabelaProdutos() {
     let tabela = document.getElementById("tabela_produtos");
     if (!tabela) return; // Se não existir tabela, não faz nada
@@ -382,36 +413,175 @@ function excluirProduto(indice) {
     }
 }
 
-// Função para cadastrar todos os produtos
+// Função para cadastrar todos os produtos no servidor
 function cadastrar_produtos() {
     if (listaProdutos.length === 0) {
         alert("Adicione pelo menos um produto antes de avançar!");
         return false;
     }
 
+    // Obter o ID do evento do input ou do localStorage
+    const evento_id = document.getElementById("evento_id").value || sessionStorage.getItem("evento_id");
+    
+    if (!evento_id) {
+        alert("É necessário ter um evento cadastrado primeiro!");
+        return false;
+    }
+
     let dados = {
+        evento_id: evento_id,
         produtos: listaProdutos
     };
 
-    let dadosJSON = JSON.stringify(dados);
+    // Enviar dados para o servidor via fetch API
+    fetch("/entrada-dados/cadastrarProdutos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dados)
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json();
+        } else {
+            throw new Error("Erro ao cadastrar produtos!");
+        }
+    })
+    .then(resposta => {
+        console.log("Resposta do servidor:", resposta);
+        alert("Produtos cadastrados com sucesso!");
+        
+        // Limpar a lista após cadastro bem-sucedido
+        listaProdutos = [];
+        atualizarTabelaProdutos();
+        
+        // Redirecionar ou continuar para a próxima etapa
+        // window.location.href = "proxima-pagina.html";
+    })
+    .catch(erro => {
+        console.error("Erro:", erro);
+        alert("Erro ao cadastrar produtos. Por favor, tente novamente.");
+    });
 
-    // Aqui você enviaria os dados para o servidor
-    console.log("Dados prontos para enviar:", dadosJSON);
-
-    // Salvar temporariamente no localStorage
-    localStorage.setItem("dadosProdutos", dadosJSON);
-
-    alert("Produtos cadastrados com sucesso!");
     return true;
 }
 
-// Inicializar a lista quando a página carregar
+// Função para cadastrar um novo evento
+function cadastrar_evento() {
+    // Obter os valores dos campos do evento
+    const organizador_id = sessionStorage.getItem("organizador_id");
+    const nome = document.getElementById("nome_evento").value;
+    const data = document.getElementById("data_evento").value;
+    const local = document.getElementById("local_evento").value;
+    const meta_receita = parseFloat(document.getElementById("meta_receita").value || 0);
+    const meta_lucro = parseFloat(document.getElementById("meta_lucro").value || 0);
+    
+    // Validar os dados
+    if (!organizador_id) {
+        alert("É necessário estar logado como organizador!");
+        return false;
+    }
+    
+    if (!nome || !data) {
+        alert("Nome e data do evento são obrigatórios!");
+        return false;
+    }
+    
+    // Criar objeto com os dados do evento
+    let dados = {
+        organizador_id: organizador_id,
+        nome: nome,
+        data: data,
+        local: local,
+        meta_receita: meta_receita,
+        meta_lucro: meta_lucro
+    };
+    
+    // Enviar dados para o servidor via fetch API
+    fetch("/entrada-dados/cadastrarEvento", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dados)
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json();
+        } else {
+            throw new Error("Erro ao cadastrar evento!");
+        }
+    })
+    .then(resposta => {
+        console.log("Resposta do servidor:", resposta);
+        
+        // Guardar o ID do evento para uso posterior
+        const evento_id = resposta.evento_id;
+        sessionStorage.setItem("evento_id", evento_id);
+        
+        if (document.getElementById("evento_id")) {
+            document.getElementById("evento_id").value = evento_id;
+        }
+        
+        alert("Evento cadastrado com sucesso! ID: " + evento_id);
+        
+        // Pode redirecionar ou habilitar elementos na página
+        // window.location.href = "gastos.html";
+        // ou
+        // document.getElementById("secao-gastos").style.display = "block";
+    })
+    .catch(erro => {
+        console.error("Erro:", erro);
+        alert("Erro ao cadastrar evento. Por favor, tente novamente.");
+    });
+    
+    return true;
+}
+
+// Função para carregar dados do usuário ao iniciar a página
+function carregarDadosUsuario() {
+    // Verificar se há um usuário logado
+    const usuarioId = sessionStorage.getItem("organizador_id");
+    const usuarioNome = sessionStorage.getItem("NOME_USUARIO"); // Corrigido aqui
+
+    if (usuarioId && usuarioNome) {
+        // Atualizar elementos da interface, se necessário
+        const elementoUsuario = document.getElementById("usuario-logado");
+        if (elementoUsuario) {
+            elementoUsuario.textContent = "Olá, " + usuarioNome;
+        }
+    } else {
+        // Redirecionar para a página de login se não estiver logado
+        alert("É necessário fazer login para acessar esta página.");
+        window.location.href = "/login.html";
+    }
+}
+
+// Inicializar quando a página carregar
 window.onload = function() {
-    let dadosSalvos = localStorage.getItem("dadosProdutos");
-    if (dadosSalvos) {
-        let dados = JSON.parse(dadosSalvos);
+    // Verificar login
+    carregarDadosUsuario();
+    
+    // Carregar dados salvos no localStorage (se houver)
+    let dadosGastos = localStorage.getItem("dadosGastos");
+    if (dadosGastos) {
+        let dados = JSON.parse(dadosGastos);
+        listaGastos = dados.gastos || [];
+        atualizarTabela();
+    }
+    
+    let dadosIngressos = localStorage.getItem("dadosIngressos");
+    if (dadosIngressos) {
+        let dados = JSON.parse(dadosIngressos);
+        listaIngressos = dados.ingressos || [];
+        atualizarTabelaIngressos();
+    }
+    
+    let dadosProdutos = localStorage.getItem("dadosProdutos");
+    if (dadosProdutos) {
+        let dados = JSON.parse(dadosProdutos);
         listaProdutos = dados.produtos || [];
         atualizarTabelaProdutos();
     }
-    
 };

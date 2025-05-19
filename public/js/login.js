@@ -49,14 +49,16 @@ function entrar() {
         }
     })
     .then(function (json) {
-        sessionStorage.EMAIL_USUARIO = json.email;
-        sessionStorage.NOME_USUARIO = json.nome;
+        // Salva o id do usuário como organizador_id
+        sessionStorage.setItem("organizador_id", json.id);
+        sessionStorage.setItem("NOME_USUARIO", json.nome);
+        sessionStorage.setItem("EMAIL_USUARIO", json.email);
 
         most.style.color = "rgba(0, 255, 47, 0.691)";
         most.innerHTML = "Login bem-sucedido! Redirecionando...";
 
         setTimeout(function () {
-            window.location = "../dashboard/dashboard.html";
+            window.location = "criar-evento.html"; // Altere para o nome correto da sua página de criar evento
         }, 1000);
     })
     .catch(function (erro) {

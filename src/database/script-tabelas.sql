@@ -1,3 +1,4 @@
+
 -- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
 -- Você precisa executar os comandos no banco de dados para criar as tabelas,
 -- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
@@ -24,7 +25,6 @@ CREATE TABLE eventos (
     organizador_id INT NOT NULL,
     nome VARCHAR(100) NOT NULL,
     data DATE NOT NULL,
-    local VARCHAR(150),
     meta_receita DECIMAL(10,2),
     meta_lucro DECIMAL(10,2),
     FOREIGN KEY (organizador_id) REFERENCES organizadores(id)

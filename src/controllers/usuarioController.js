@@ -1,6 +1,4 @@
 var usuarioModel = require("../models/usuarioModel");
-// Remova esta linha - não precisamos do aquarioModel
-// var aquarioModel = require("../models/aquarioModel");
 
 function autenticar(req, res) {
     var email = req.body.email;
@@ -21,7 +19,6 @@ function autenticar(req, res) {
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
 
-                        // Removemos todo o bloco que usava aquarioModel e respondemos diretamente
                         res.json({
                             id: resultadoAutenticar[0].id,
                             email: resultadoAutenticar[0].email,
