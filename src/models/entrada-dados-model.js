@@ -33,11 +33,9 @@ function cadastrarProdutos(evento_id, nome, preco_unitario, quantidade_vendida) 
 function cadastrarEvento(organizador_id, nome, data, local, meta_receita, meta_lucro) {
     console.log("ACESSEI O EVENTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrarEvento(): ", organizador_id, nome, data, local, meta_receita, meta_lucro);
     
-    var instrucaoSql = `
+     var instrucaoSql = `
         INSERT INTO eventos (organizador_id, nome, data, local, meta_receita, meta_lucro) VALUES (${organizador_id}, '${nome}', '${data}', '${local}', ${meta_receita}, ${meta_lucro});
-        SELECT LAST_INSERT_ID() as id;
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
