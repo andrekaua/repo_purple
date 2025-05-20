@@ -1,10 +1,15 @@
 var database = require("../database/config")
 
 function cadastrarGastos(evento_id, categoria, valor, descricao) {
+    if (!evento_id) {
+        return Promise.reject(new Error("ID do evento não fornecido"));
+    }
+    
     console.log("ACESSEI O GASTOS MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrarGastos(): ", evento_id, categoria, valor, descricao);
     
     var instrucaoSql = `
-        INSERT INTO gastos (evento_id, categoria, valor, descricao) VALUES (${evento_id}, '${categoria}', ${valor}, '${descricao}');
+       INSERT INTO gastos (evento_id, categoria, valor, descricao)
+        VALUES (?, ?, ?, ?);
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

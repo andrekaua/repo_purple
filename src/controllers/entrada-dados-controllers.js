@@ -4,21 +4,25 @@ function cadastrarGastos(req, res) {
     var evento_id = req.body.evento_id;
     var gastos = req.body.gastos;
 
+    console.log("Dados recebidos no controller:", {
+        evento_id: evento_id,
+        gastos: gastos
+    });
+
     if (evento_id == undefined) {
         res.status(400).send("O ID do evento está undefined!");
     } else if (gastos == undefined || !Array.isArray(gastos) || gastos.length === 0) {
         res.status(400).send("Gastos inválidos ou não fornecidos!");
     } else {
-        // Processando múltiplos gastos
         const promises = [];
         
         for (let gasto of gastos) {
             promises.push(
                 entradaDadosModel.cadastrarGastos(
                     evento_id,
-                    gasto.nome, // usando o nome como categoria
+                    gasto.nome,
                     gasto.valor,
-                    gasto.descricao || '' // caso não tenha descrição
+                    gasto.descricao || '' 
                 )
             );
         }
@@ -47,7 +51,6 @@ function cadastrarIngressos(req, res) {
     } else if (ingressos == undefined || !Array.isArray(ingressos) || ingressos.length === 0) {
         res.status(400).send("Ingressos inválidos ou não fornecidos!");
     } else {
-        // Processando múltiplos ingressos
         const promises = [];
         
         for (let ingresso of ingressos) {
@@ -86,7 +89,6 @@ function cadastrarProdutos(req, res) {
     } else if (produtos == undefined || !Array.isArray(produtos) || produtos.length === 0) {
         res.status(400).send("Produtos inválidos ou não fornecidos!");
     } else {
-        // Processando múltiplos produtos
         const promises = [];
         
         for (let produto of produtos) {
@@ -130,14 +132,12 @@ function cadastrarEvento(req, res) {
     } else if (data == undefined) {
         res.status(400).send("A data do evento está undefined!");
     } else {
-        // Valores padrão para campos opcionais
         local = local || "";
         meta_receita = meta_receita || 0;
         meta_lucro = meta_lucro || 0;
         
         entradaDadosModel.cadastrarEvento(organizador_id, nome, data, local, meta_receita, meta_lucro)
             .then(function (resultado) {
-                // Extrair o ID do evento recém-criado
                 const evento_id = resultado[0].id;
                 
                 res.json({

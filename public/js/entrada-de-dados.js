@@ -109,6 +109,7 @@ function cadastrar_gastos() {
     }
     
     // Obter o ID do evento do input ou do localStorage
+    const eventoIdElement = document.getElementById("evento_id");
     const evento_id = document.getElementById("evento_id").value || sessionStorage.getItem("evento_id");
     
     if (!evento_id) {
@@ -537,6 +538,8 @@ function cadastrar_evento() {
     });
     
     return true;
+    console.log("Verificando se o evento foi criado:");
+    console.log("evento_id na sessionStorage:", sessionStorage.getItem("evento_id"));
 }
 
 // Função para carregar dados do usuário ao iniciar a página
