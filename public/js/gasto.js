@@ -3,20 +3,18 @@ let listaGastos = [];
 
 // Função para adicionar gastos à tabela
 function adicionar_gastos() {
-    // Obter os valores dos campos
     let gasto_nome = document.getElementById("gasto_nome").value;
     let gasto_valor = parseFloat(document.getElementById("gasto_valor").value);
     
-    // Validar os dados
     if (gasto_nome.trim() === "" || isNaN(gasto_valor) || gasto_valor <= 0) {
         alert("Por favor, preencha todos os campos corretamente!");
         return;
     }
     
-    // Criar um objeto para o gasto
     let gasto = {
         nome: gasto_nome,
-        valor: gasto_valor
+        valor: gasto_valor,
+        descricao: "" 
     };
     
     // Adicionar o gasto ao array
@@ -25,21 +23,17 @@ function adicionar_gastos() {
     // Atualizar a tabela
     atualizarTabela();
     
-    // Limpar os campos após adicionar
     document.getElementById("gasto_nome").value = "";
     document.getElementById("gasto_valor").value = "";
 }
 
-// Função para atualizar a tabela de gastos
 function atualizarTabela() {
     let tabela = document.getElementById("tabela_gastos");
     
-    // Limpar a tabela (exceto o cabeçalho)
     while (tabela.rows.length > 1) {
         tabela.deleteRow(1);
     }
     
-    // Variável para calcular o total
     let total = 0;
     
     // Adicionar cada gasto à tabela
@@ -64,7 +58,6 @@ function atualizarTabela() {
             <button onclick="excluirGasto(${i})">Excluir</button>
         `;
         
-        // Somar ao total
         total += gasto.valor;
     }
     
@@ -80,7 +73,6 @@ function editarGasto(indice) {
     document.getElementById("gasto_nome").value = gasto.nome;
     document.getElementById("gasto_valor").value = gasto.valor;
     
-    // Remover o gasto da lista (será adicionado novamente quando o usuário clicar em Adicionar)
     listaGastos.splice(indice, 1);
     
     // Atualizar a tabela
@@ -91,15 +83,13 @@ function editarGasto(indice) {
 function excluirGasto(indice) {
     // Confirmar antes de excluir
     if (confirm("Tem certeza que deseja excluir este gasto?")) {
-        // Remover o gasto da lista
         listaGastos.splice(indice, 1);
         
-        // Atualizar a tabela
         atualizarTabela();
     }
 }
 
-// Função para cadastrar todos os gastos
+// Função para cadastrar todos os gastos no servidor
 function cadastrar_gastos() {
     // Verificar se há gastos para cadastrar
     if (listaGastos.length === 0) {
@@ -107,41 +97,51 @@ function cadastrar_gastos() {
         return false;
     }
     
+    // Obter o ID do evento do input ou do localStorage
+    const eventoIdElement = document.getElementById("evento_id");
+    const evento_id = document.getElementById("evento_id").value || sessionStorage.getItem("evento_id");
+    
+    if (!evento_id) {
+        alert("É necessário ter um evento cadastrado primeiro!");
+        return false;
+    }
+    
     // Criar um objeto com todos os gastos
     let dados = {
-        gastos: listaGastos,
-        total: calcularTotal()
+        evento_id: evento_id,
+        gastos: listaGastos
     };
     
-    // Converter para JSON
-    let dadosJSON = JSON.stringify(dados);
-    
-    // Aqui você enviaria os dados para o servidor
-    console.log("Dados prontos para enviar:", dadosJSON);
-    
-    // Para salvar temporariamente no localStorage (apenas para demonstração)
-    localStorage.setItem("dadosGastos", dadosJSON);
-    
-    alert("Gastos cadastrados com sucesso!");
-    return true;    
-}
-
-// Função para calcular o total dos gastos
-function calcularTotal() {
-    let total = 0;
-    for (let gasto of listaGastos) {
-        total += gasto.valor;
-    }
-    return total;
-}
-
-// Inicializar a tabela quando a página carregar
-window.onload = function() {
-    // Verificar se há dados salvos no localStorage
-    let dadosSalvos = localStorage.getItem("dadosGastos");
-    if (dadosSalvos) {
-        let dados = JSON.parse(dadosSalvos);
-        listaGastos = dados.gastos;
+    // Enviar dados para o servidor via fetch API
+    fetch("/entrada-dados/cadastrarGastos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dados)
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json();
+        } else {
+            throw new Error("Erro ao cadastrar gastos!");
+        }
+    })
+    .then(resposta => {
+        console.log("Resposta do servidor:", resposta);
+        alert("Gastos cadastrados com sucesso!");
+        
+        // Limpar a lista após cadastro bem-sucedido
+        listaGastos = [];
         atualizarTabela();
-    }
-};
+        
+        // Redirecionar ou continuar para a próxima etapa
+        // window.location.href = "proxima-pagina.html";
+    })
+    .catch(erro => {
+        console.error("Erro:", erro);
+        alert("Erro ao cadastrar gastos. Por favor, tente novamente.");
+    });
+    
+    return true;
+}

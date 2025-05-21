@@ -1,4 +1,3 @@
-// Array para armazenar todos os ingressos
 let listaIngressos = [];
 
 // Função para adicionar ingressos à lista
@@ -45,7 +44,7 @@ function adicionar_ingresso() {
     document.getElementById("meta_venda").value = "";
 }
 
-// Função para atualizar a tabela de ingressos (adicione uma tabela no HTML se quiser visualizar)
+// Função para atualizar a tabela de ingressos
 function atualizarTabelaIngressos() {
     let tabela = document.getElementById("tabela_ingressos");
     if (!tabela) return; // Se não existir tabela, não faz nada
@@ -103,35 +102,56 @@ function excluirIngresso(indice) {
     }
 }
 
-// Função para cadastrar todos os ingressos
+// Função para cadastrar todos os ingressos no servidor
 function cadastrar_ingressos() {
     if (listaIngressos.length === 0) {
         alert("Adicione pelo menos um ingresso antes de avançar!");
         return false;
     }
 
+    // Obter o ID do evento do input ou do localStorage
+    const evento_id = document.getElementById("evento_id").value || sessionStorage.getItem("evento_id");
+    
+    if (!evento_id) {
+        alert("É necessário ter um evento cadastrado primeiro!");
+        return false;
+    }
+
     let dados = {
+        evento_id: evento_id,
         ingressos: listaIngressos
     };
 
-    let dadosJSON = JSON.stringify(dados);
+    // Enviar dados para o servidor via fetch API
+    fetch("/entrada-dados/cadastrarIngressos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dados)
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json();
+        } else {
+            throw new Error("Erro ao cadastrar ingressos!");
+        }
+    })
+    .then(resposta => {
+        console.log("Resposta do servidor:", resposta);
+        alert("Ingressos cadastrados com sucesso!");
+        
+        // Limpar a lista após cadastro bem-sucedido
+        listaIngressos = [];
+        atualizarTabelaIngressos();
+        
+        // Redirecionar ou continuar para a próxima etapa
+        // window.location.href = "proxima-pagina.html";
+    })
+    .catch(erro => {
+        console.error("Erro:", erro);
+        alert("Erro ao cadastrar ingressos. Por favor, tente novamente.");
+    });
 
-    // Aqui você enviaria os dados para o servidor
-    console.log("Dados prontos para enviar:", dadosJSON);
-
-    // Salvar temporariamente no localStorage
-    localStorage.setItem("dadosIngressos", dadosJSON);
-
-    alert("Ingressos cadastrados com sucesso!");
     return true;
 }
-
-// Inicializar a lista quando a página carregar
-window.onload = function() {
-    let dadosSalvos = localStorage.getItem("dadosIngressos");
-    if (dadosSalvos) {
-        let dados = JSON.parse(dadosSalvos);
-        listaIngressos = dados.ingressos || [];
-        atualizarTabelaIngressos();
-    }
-};

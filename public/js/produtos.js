@@ -1,4 +1,3 @@
-// Array para armazenar todos os produtos
 let listaProdutos = [];
 
 // Função para adicionar produtos à lista
@@ -41,7 +40,7 @@ function adicionar_produto() {
     document.getElementById("meta_venda").value = "";
 }
 
-// Função para atualizar a tabela de produtos (adicione uma tabela no HTML se quiser visualizar)
+// Função para atualizar a tabela de produtos
 function atualizarTabelaProdutos() {
     let tabela = document.getElementById("tabela_produtos");
     if (!tabela) return; // Se não existir tabela, não faz nada
@@ -96,36 +95,54 @@ function excluirProduto(indice) {
     }
 }
 
-// Função para cadastrar todos os produtos
+// Função para cadastrar todos os produtos no servidor
 function cadastrar_produtos() {
     if (listaProdutos.length === 0) {
         alert("Adicione pelo menos um produto antes de avançar!");
         return false;
     }
 
+    // Obter o ID do evento do input ou do localStorage
+    const evento_id = document.getElementById("evento_id").value || sessionStorage.getItem("evento_id");
+    
+    if (!evento_id) {
+        alert("É necessário ter um evento cadastrado primeiro!");
+        return false;
+    }
+
     let dados = {
+        evento_id: evento_id,
         produtos: listaProdutos
     };
 
-    let dadosJSON = JSON.stringify(dados);
+    // Enviar dados para o servidor via fetch API
+    fetch("/entrada-dados/cadastrarProdutos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dados)
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json();
+        } else {
+            throw new Error("Erro ao cadastrar produtos!");
+        }
+    })
+    .then(resposta => {
+        console.log("Resposta do servidor:", resposta);
+        alert("Produtos cadastrados com sucesso!");
+        
+        // Limpar a lista após cadastro bem-sucedido
+        listaProdutos = [];
+        atualizarTabelaProdutos();
+        
+    })
+    .catch(erro => {
+        console.error("Erro:", erro);
+        alert("Erro ao cadastrar produtos. Por favor, tente novamente.");
+    });
 
-    // Aqui você enviaria os dados para o servidor
-    console.log("Dados prontos para enviar:", dadosJSON);
-
-    // Salvar temporariamente no localStorage
-    localStorage.setItem("dadosProdutos", dadosJSON);
-
-    alert("Produtos cadastrados com sucesso!");
     return true;
 }
-
-// Inicializar a lista quando a página carregar
-window.onload = function() {
-    let dadosSalvos = localStorage.getItem("dadosProdutos");
-    if (dadosSalvos) {
-        let dados = JSON.parse(dadosSalvos);
-        listaProdutos = dados.produtos || [];
-        atualizarTabelaProdutos();
-    }
-    
-};

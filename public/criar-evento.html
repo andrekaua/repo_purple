@@ -4,34 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/entrada-de-dados.css">
-    <script src="/js/entrada-de-dados.js"></script>
+    <script src="js/criar_evento.js"></script>
     <title>Criar Evento</title>
 </head>
 <body>
     <div>
-         
         <h1 id="logo">Purple</h1>
-            <div id="corpo">
-                <h2 id="titulo">Criar Evento</h2>
+        <div id="corpo">
+            <h2 id="titulo">Criar Evento</h2>
 
-                <label for="">Nome:</label>
-                    <input type="text" id="nome" name="nome">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome">
 
-                <label for="">Data:</label>
-                    <input type="date" id="data" name="data">
+            <label for="data">Data:</label>
+            <input type="date" id="data" name="data">
 
-                <label for="">Capacidade Maxima:</label>
-                    <input type="number" id="capacidade" name="capacidade">
+            <label for="local">Local:</label>
+            <input type="text" id="local" name="local">
 
-                <label for="">Quanto quer lucrar:</label>
-                    <input type="number" id="lucro" name="lucro">
+            <label for="capacidade">Capacidade Maxima:</label>
+            <input type="number" id="capacidade" name="capacidade">
 
-                <div id="botao-container">
-                    <a href="gastos-do-evento.html">
-                        <button type="button" id="botao-princ" onclick="criar_evento()">Criar Evento</button>
-                    </a>
-                </div>
+            <label for="lucro">Quanto quer lucrar:</label>
+            <input type="number" id="lucro" name="lucro">
+
+            <div id="botao-container">
+                <button type="button" id="botao-princ" onclick="criar_evento()">Criar Evento</button>
             </div>
+        </div>
     </div>
 </body>
 </html>

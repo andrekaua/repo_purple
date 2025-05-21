@@ -39,27 +39,24 @@ function entrar() {
             senha: senha
         })
     })
-    .then(function (resposta) {
+    .then(async function (resposta) {
         if (resposta.ok) {
-            return resposta.json();
+            const dados_usuario = await resposta.json();
+            // Salva o id do usuário como organizador_id
+            sessionStorage.setItem("dados_usuarios", JSON.stringify(dados_usuario));
+            console.log("miguel gay", dados_usuario);
+
+            most.style.color = "rgba(0, 255, 47, 0.691)";
+            most.innerHTML = "Login bem-sucedido! Redirecionando...";
+            
+            setTimeout(function () {
+                window.location = "criar-evento.html";
+        }, 1000);
         } else {
             return resposta.text().then(texto => {
                 throw new Error(texto);
             });
         }
-    })
-    .then(function (json) {
-        // Salva o id do usuário como organizador_id
-        sessionStorage.setItem("organizador_id", json.id);
-        sessionStorage.setItem("NOME_USUARIO", json.nome);
-        sessionStorage.setItem("EMAIL_USUARIO", json.email);
-
-        most.style.color = "rgba(0, 255, 47, 0.691)";
-        most.innerHTML = "Login bem-sucedido! Redirecionando...";
-
-        setTimeout(function () {
-            window.location = "criar-evento.html"; // Altere para o nome correto da sua página de criar evento
-        }, 1000);
     })
     .catch(function (erro) {
         most.style.color = "red";
