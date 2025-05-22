@@ -1,147 +1,159 @@
-// Array para armazenar todos os gastos
-let listaGastos = [];
-
-// Função para adicionar gastos à tabela
-function adicionar_gastos() {
-    let gasto_nome = document.getElementById("gasto_nome").value;
-    let gasto_valor = parseFloat(document.getElementById("gasto_valor").value);
-    
-    if (gasto_nome.trim() === "" || isNaN(gasto_valor) || gasto_valor <= 0) {
-        alert("Por favor, preencha todos os campos corretamente!");
-        return;
-    }
-    
-    let gasto = {
-        nome: gasto_nome,
-        valor: gasto_valor,
-        descricao: "" 
-    };
-    
-    // Adicionar o gasto ao array
-    listaGastos.push(gasto);
-    
-    // Atualizar a tabela
-    atualizarTabela();
-    
-    document.getElementById("gasto_nome").value = "";
-    document.getElementById("gasto_valor").value = "";
-}
+let gastos = [];
+const nome_gasto = document.getElementById('gasto_nome');
+const valor_gasto = document.getElementById('gasto_valor');
+const notification = document.getElementById('notificacao');
+const tabelaGastos = document.getElementById('tabela_gastos').getElementsByTagName('tbody')[0];
+const quantidadeItens = document.getElementById('quantidade-itens');
+const valorTotal = document.getElementById('valor-total');
 
 function atualizarTabela() {
-    let tabela = document.getElementById("tabela_gastos");
-    
-    while (tabela.rows.length > 1) {
-        tabela.deleteRow(1);
-    }
-    
+    tabelaGastos.innerHTML = "";
     let total = 0;
-    
-    // Adicionar cada gasto à tabela
-    for (let i = 0; i < listaGastos.length; i++) {
-        let gasto = listaGastos[i];
-        
-        // Criar uma nova linha
-        let novaLinha = tabela.insertRow();
-        
-        // Inserir células
-        let celNome = novaLinha.insertCell(0);
-        let celValor = novaLinha.insertCell(1);
-        let celAcoes = novaLinha.insertCell(2);
-        
-        // Adicionar os dados às células
-        celNome.textContent = gasto.nome;
-        celValor.textContent = gasto.valor.toFixed(2);
-        
-        // Adicionar botões de editar e excluir
-        celAcoes.innerHTML = `
-            <button onclick="editarGasto(${i})">Editar</button>
-            <button onclick="excluirGasto(${i})">Excluir</button>
+    for (let i = 0; i < gastos.length; i++) {
+        const gasto = gastos[i];
+        const row = tabelaGastos.insertRow();
+        row.insertCell(0).textContent = gasto.nome;
+        row.insertCell(1).textContent = gasto.valor.toFixed(2);
+        const acoes = row.insertCell(2);
+        acoes.innerHTML = `
+            <button onclick="editarGasto(${i})" class="edit-expense">Editar</button>
+            <button onclick="excluirGasto(${i})" class="delete-expense">Excluir</button>
         `;
-        
         total += gasto.valor;
     }
-    
-    // Atualizar o valor total
-    document.getElementById("valor-total").textContent = total.toFixed(2);
+    quantidadeItens.textContent = gastos.length;
+    valorTotal.textContent = total.toFixed(2);
 }
 
-// Função para editar um gasto
-function editarGasto(indice) {
-    let gasto = listaGastos[indice];
-    
-    // Preencher os campos com os valores do gasto
-    document.getElementById("gasto_nome").value = gasto.nome;
-    document.getElementById("gasto_valor").value = gasto.valor;
-    
-    listaGastos.splice(indice, 1);
-    
-    // Atualizar a tabela
+//quantidade de produto
+function quantidade() {
+    return gastos.length;
+}
+
+//soma dos produtos
+function calcularTotal() {
+    return gastos.reduce((soma, gasto) => soma + gasto.valor, 0);
+}
+
+//notificação - se for certo "true" se for errado "false"
+function mostrarNotificacao(msg, sucesso = false) {
+    notification.innerHTML = msg;
+    notification.style.display = "block";   
+    notification.className = sucesso ? "notification notification-success" : "notification notification-error";
+    setTimeout(() => {
+        notification.style.display = "none";
+    }, 2000);
+}
+
+//add gasto
+function add_gasto() {
+    const nome = nome_gasto.value.trim();
+    const valor = parseFloat(valor_gasto.value);
+
+    if (!nome || isNaN(valor) || valor < 0) {
+        mostrarNotificacao("Erro: preencha todos os campos corretamente para adicionar!", false);
+        return;
+    }
+
+    gastos.push({ nome, valor });
+    mostrarNotificacao("Gasto cadastrado com sucesso!", true);
+
     atualizarTabela();
+    nome_gasto.value = "";
+    valor_gasto.value = "";
 }
 
-// Função para excluir um gasto
-function excluirGasto(indice) {
-    // Confirmar antes de excluir
-    if (confirm("Tem certeza que deseja excluir este gasto?")) {
-        listaGastos.splice(indice, 1);
-        
-        atualizarTabela();
+// excluir gasto
+function excluirGasto(index) {
+    gastos.splice(index, 1);
+    atualizarTabela();
+
+    mostrarNotificacao("Gasto excluído com sucesso!", false);
+}
+
+// editar 
+function editarGasto(index) {
+    const gasto = gastos[index];
+    document.getElementById('edit_nome').value = gasto.nome;
+    document.getElementById('edit_valor').value = gasto.valor;
+    document.getElementById('edit').value = index;
+    document.getElementById('edicao').style.display = 'block';
+
+    mostrarNotificacao("Gasto editado com sucesso", false);
+}
+
+// Salva o edit
+document.getElementById('salvar_edicao').onclick = function() {
+    const index = document.getElementById('edit').value;
+    const nome = document.getElementById('edit_nome').value.trim();
+    const valor = parseFloat(document.getElementById('edit_valor').value);
+
+    if (!nome || isNaN(valor) || valor < 0) {
+        notification.innerHTML = "Erro ao editar gasto!";
+        return;
     }
-}
 
-// Função para cadastrar todos os gastos no servidor
+    gastos[index] = { nome, valor };
+    atualizarTabela();
+    document.getElementById('edicao').style.display = 'none';
+    mostrarNotificacao("Gasto editado com sucesso!", true);
+};
+
+//cancela  a edição
+document.getElementById('cancelar_edicao').onclick = function() {
+    document.getElementById('edicao').style.display = 'none';
+};
+
+// cadastrar gastos
 function cadastrar_gastos() {
-    // Verificar se há gastos para cadastrar
-    if (listaGastos.length === 0) {
-        alert("Adicione pelo menos um gasto antes de avançar!");
+    let qtd = quantidadeGastos();
+    console.log("Quantidade de gastos:", qtd);
+
+    let total = calcularTotal();
+    console.log("Total atual:", total);
+
+    //validações 
+    if (gastos.length === 0) {
+        mostrarNotificacao("Adicione pelo menos um gasto antes de avançar!", false);
         return false;
     }
-    
-    // Obter o ID do evento do input ou do localStorage
-    const eventoIdElement = document.getElementById("evento_id");
-    const evento_id = document.getElementById("evento_id").value || sessionStorage.getItem("evento_id");
-    
-    if (!evento_id) {
-        alert("É necessário ter um evento cadastrado primeiro!");
-        return false;
-    }
-    
-    // Criar um objeto com todos os gastos
-    let dados = {
+
+    const dados_gastos = {
         evento_id: evento_id,
-        gastos: listaGastos
+        nome: nome,
+        valor_gasto: valor_gasto,
+        qntdd_gastos: qtd
     };
-    
-    // Enviar dados para o servidor via fetch API
-    fetch("/entrada-dados/cadastrarGastos", {
+
+    console.log("Dados dos gastos:", dados_gastos);
+
+    fetch("/gasto/cadastrar_evento", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(dados)
+        body: JSON.stringify(dados_gastos)
     })
     .then(resposta => {
-        if (resposta.ok) {
-            return resposta.json();
-        } else {
+        if (!resposta.ok) {
             throw new Error("Erro ao cadastrar gastos!");
         }
+        return resposta.json();
     })
     .then(resposta => {
         console.log("Resposta do servidor:", resposta);
-        alert("Gastos cadastrados com sucesso!");
-        
-        // Limpar a lista após cadastro bem-sucedido
-        listaGastos = [];
-        atualizarTabela();
-        
-        // Redirecionar ou continuar para a próxima etapa
-        // window.location.href = "proxima-pagina.html";
+        const gastos_id = resposta.gastos_id;
+        sessionStorage.setItem("gastos_id", gastos_id);
+        alert("gastos cadastrado com sucesso! ID: " + gastos_id);
+        window.location.href = "gastos-do-gastos.html";
     })
     .catch(erro => {
         console.error("Erro:", erro);
         alert("Erro ao cadastrar gastos. Por favor, tente novamente.");
     });
-    
+
+    return false;
+
+    mostrarNotificacao("Gastos validados! Pronto para avançar!", true);
     return true;
 }

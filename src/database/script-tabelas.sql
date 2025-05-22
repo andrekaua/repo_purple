@@ -34,9 +34,10 @@ CREATE TABLE eventos (
 CREATE TABLE gastos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     evento_id INT NOT NULL,
-    categoria VARCHAR(100),
+    nome VARCHAR(100),
     valor DECIMAL(10,2) NOT NULL,
-    descricao TEXT,
+    qntdd_gasto INT,
+    total DECIMAL(10,2),
     FOREIGN KEY (evento_id) REFERENCES eventos(id)
 );
 
