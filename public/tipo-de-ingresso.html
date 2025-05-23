@@ -1,59 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/entrada-de-dados.css">
-    <script src="js/ingresso.js"></script>
+    <link rel="stylesheet" href="css/ingresso.css">
     <title>Tipos de Ingressos</title>
 </head>
 <body>
-    <div>
-        <h1 id="titulo">Purple</h1>
+    <div class="container">
+        <h1 id="logo">Purple</h1>
         <div id="corpo">
-            <h2>Tipos de Ingressos</h2>
-            <label for="tipo_ingresso">Tipo de Ingressos:</label>
-            <select name="ingresso_tipo" id="tipo_ingresso">
-                <option value="">Selecione o tipo de ingresso</option>
-                <option value="Ingresso Pista">Ingresso Pista</option>
-                <option value="Ingresso Front">Ingresso Front</option>
-                <option value="Ingresso Camarote">Ingresso Camarote</option>
-                <option value="Ingresso Backstage">Ingresso Backstage</option>
-                <option value="Ingresso Estudante">Ingresso Estudante</option>
-                <option value="Ingresso Meia-Entrada">Ingresso Meia-Entrada</option>
-                <option value="Ingresso VIP">Ingresso VIP</option>
-            </select>
-            <label for="preco">Preço:</label>
-            <input type="number" id="preco" name="preco" min="0" step="0.01">
-            <label for="quantidade">Quantidade disponível:</label>
-            <input type="number" id="quantidade" name="quantidade" min="0">
-            <label for="vendido">Vendido:</label>
-            <input type="number" id="vendido" name="vendido" min="0">
-            <label for="meta_venda">Meta de venda:</label>
-            <input type="number" id="meta_venda" name="meta_venda" min="0">
+            <h2 id="titulo">Tipos de Ingressos</h2>
 
-            <!-- Tabela para visualizar os ingressos adicionados -->
-            <table id="tabela_ingressos" border="1" style="margin-top:20px;width:100%;text-align:center;">
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Preço</th>
-                        <th>Quantidade</th>
-                        <th>Vendido</th>
-                        <th>Meta de Venda</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Os ingressos adicionados aparecerão aqui -->
-                </tbody>
-            </table>
+            <div id="notificacao" class="notification"></div>
 
-            <div id="botao-container">
-                <button type="button" id="adicionar" onclick="adicionar_ingresso()">Adicionar</button>
-                <button type="button" id="botao-princ" onclick="if(cadastrar_ingressos()){window.location.href='produto-adicionais.html'}">Avançar</button>
+            <form class="form" onsubmit="event.preventDefault(); adicionar_ingresso();">
+                <label for="tipo_ingresso">Tipo de ingresso:</label>
+                <select id="tipo_ingresso" name="tipo_ingresso" required>
+                    <option value="">Selecione o tipo de ingresso</option>
+                    <option value="Ingresso Pista">Ingresso Pista</option>
+                    <option value="Ingresso Front">Ingresso Front</option>
+                    <option value="Ingresso Camarote">Ingresso Camarote</option>
+                    <option value="Ingresso Backstage">Ingresso Backstage</option>
+                    <option value="Ingresso Estudante">Ingresso Estudante</option>
+                    <option value="Ingresso Meia-Entrada">Ingresso Meia-Entrada</option>
+                    <option value="Ingresso VIP">Ingresso VIP</option>
+                </select>
+
+                <label for="preco">Preço:</label>
+                <input type="number" id="preco" name="preco" min="0" step="0.01" required>
+
+                <label for="quantidade">Quantidade disponível:</label>
+                <input type="number" id="quantidade" name="quantidade" min="0" required>
+
+                <label for="vendido">Vendido:</label>
+                <input type="number" id="vendido" name="vendido" min="0" required>
+
+                <label for="meta_venda">Meta de venda:</label>
+                <input type="number" id="meta_venda" name="meta_venda" min="0" required>
+
+                <div id="adicionar">
+                    <button type="submit">Adicionar</button>
+                </div>
+            </form>
+
+            <div id="lista">
+                <table id="tabela_ingressos">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Preço</th>
+                            <th>Quantidade</th>
+                            <th>Vendido</th>
+                            <th>Meta de Venda</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Os ingressos adicionados aparecerão aqui -->
+                    </tbody>
+                </table>
+                <div id="total-gasto">
+                    <span>Quantidade de itens: <span id="quantidade-itens">0</span></span>
+                    <span>Total: R$ <span id="valor-total">0.00</span></span>
+                </div>
+            </div>
+
+            <!-- Área para edição de ingressos -->
+            <div id="edicao">
+                <h3>Editar Ingresso</h3>
+                
+                <div class="form">
+                    <label for="edit_tipo">Tipo:</label>
+                    <select id="edit_tipo">
+                        <option value="Ingresso Pista">Ingresso Pista</option>
+                        <option value="Ingresso Front">Ingresso Front</option>
+                        <option value="Ingresso Camarote">Ingresso Camarote</option>
+                        <option value="Ingresso Backstage">Ingresso Backstage</option>
+                        <option value="Ingresso Estudante">Ingresso Estudante</option>
+                        <option value="Ingresso Meia-Entrada">Ingresso Meia-Entrada</option>
+                        <option value="Ingresso VIP">Ingresso VIP</option>
+                    </select>
+                </div>
+                <div class="form">
+                    <label for="edit_preco">Preço:</label>
+                    <input type="number" id="edit_preco" step="0.01" min="0">
+                </div>
+                <div class="form">
+                    <label for="edit_quantidade">Quantidade disponível:</label>
+                    <input type="number" id="edit_quantidade" min="0">
+                </div>
+                <div class="form">
+                    <label for="edit_vendido">Vendido:</label>
+                    <input type="number" id="edit_vendido" min="0">
+                </div>
+                <div class="form">
+                    <label for="edit_meta">Meta de venda:</label>
+                    <input type="number" id="edit_meta" min="0">
+                </div>
+                <input type="hidden" id="edit">
+                <div class="edit-actions">
+                    <button type="button" id="salvar_edicao" class="button-save">Salvar</button>
+                    <button type="button" id="cancelar_edicao" class="button-cancel">Cancelar</button>
+                </div>
+            </div>
+
+            <div id="navegacao">
+                <button type="button" id="botao-princ" onclick="cadastrar_ingressos()/*{window.location.href='produto-adicionais.html'}*/">Avançar</button>
             </div>
         </div>
     </div>
+    <script src="js/ingresso.js"></script>
 </body>
 </html>

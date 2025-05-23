@@ -17,7 +17,7 @@ body {
 
 .container {
     width: 100%;
-    max-width: 800px;
+    max-width: 700px;
 }
 
 #logo {
@@ -36,7 +36,7 @@ body {
 }
 
 #titulo {
-    font-size: 40px;
+    font-size: 32px;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -82,6 +82,7 @@ input[type="number"] {
     border: none;
     font-size: 16px;
     outline: none;
+    margin-bottom: 10px;
 }
 
 input:focus {
@@ -115,21 +116,8 @@ input:focus {
     transform: translateY(-3px);
 }
 
-/* Lista de Gastos */
-#lista {
-    background-color: #8f0a9c;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-}
-
-#lista h3 {
-    text-align: center;
-    margin-bottom: 15px;
-    font-size: 25px;
-}
-
-#tabela_gastos {
+/* Tabela de Produtos */
+#tabela_produtos {
     width: 100%;
     border-collapse: collapse;
     color: white;
@@ -139,24 +127,24 @@ input:focus {
     margin-bottom: 15px;
 }
 
-#tabela_gastos th {
+#tabela_produtos th {
     background-color: #550560;
     color: white;
     padding: 10px;
-    text-align: left;
+    text-align: center;
 }
 
-#tabela_gastos td {
+#tabela_produtos td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
     color: white;
 }
 
-#tabela_gastos tr:nth-child(even) {
+#tabela_produtos tr:nth-child(even) {
     background-color: rgb(99, 2, 121);
 }
 
-#tabela_gastos button {
+#tabela_produtos button {
     padding: 6px 12px;
     margin: 0 3px;
     border: none;
@@ -164,28 +152,39 @@ input:focus {
     cursor: pointer;
 }
 
-#tabela_gastos button.edit-expense {
+#tabela_produtos button.edit-expense {
     background-color: #00ff48;
     color: #333;
 }
 
-#tabela_gastos button.delete-expense {
+#tabela_produtos button.delete-expense {
     background-color: #dc3545;
     color: white;
 }
 
-/* Total dos gastos */
-#total-gasto {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px;
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #6a0875;
-    border-radius: 8px;
+/* Botão Avançar */
+#navegacao {
+    text-align: center;
+    margin-top: 30px;
 }
 
-/* Área de Edição */
+#botao-princ {
+    width: 100%;
+    height: 50px;
+    background-color: #e101ff;
+    color: white;
+    font-size: 22px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#botao-princ:hover {
+    background-color: #550560;
+    transform: translateY(-3px);
+}
+
 #edicao {
     background-color: #8f0a9c;
     border-radius: 10px;
@@ -254,4 +253,14 @@ input:focus {
 #botao-princ:hover {
     background-color: #550560;
     transform: translateY(-3px);
+}
+
+#total-gasto {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #6a0875;
+    border-radius: 8px;
 }

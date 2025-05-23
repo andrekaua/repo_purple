@@ -1,157 +1,192 @@
-let listaIngressos = [];
 
-// Função para adicionar ingressos à lista
+let ingressos = [];
+const tipo_ingresso = document.getElementById('tipo_ingresso');
+const preco = document.getElementById('preco');
+const quantidade = document.getElementById('quantidade');
+const vendido = document.getElementById('vendido');
+const meta_venda = document.getElementById('meta_venda');
+const notification = document.getElementById('notificacao');
+const tabelaIngressos = document.getElementById('tabela_ingressos').getElementsByTagName('tbody')[0];
+const idEvento = sessionStorage.getItem("evento_id");
+
+const edit_tipo = document.getElementById('edit_tipo');
+const edit_preco = document.getElementById('edit_preco');
+const edit_quantidade = document.getElementById('edit_quantidade');
+const edit_vendido = document.getElementById('edit_vendido');
+const edit_meta = document.getElementById('edit_meta');
+const edit_index = document.getElementById('edit');
+const edicao = document.getElementById('edicao');
+
+const quantidadeItens = document.getElementById('quantidade-itens');
+const valorTotal = document.getElementById('valor-total');
+
+// Atualiza a tabela de ingressos
+function atualizarTabelaIngressos() {
+    tabelaIngressos.innerHTML = "";
+    let total = 0;
+    for (let i = 0; i < ingressos.length; i++) {
+        const ing = ingressos[i];
+        const row = tabelaIngressos.insertRow();
+        row.insertCell(0).textContent = ing.tipo;
+        row.insertCell(1).textContent = parseFloat(ing.preco).toFixed(2);
+        row.insertCell(2).textContent = ing.quantidade;
+        row.insertCell(3).textContent = ing.vendido;
+        row.insertCell(4).textContent = ing.meta;
+        const acoes = row.insertCell(5);
+        acoes.innerHTML = `
+            <button onclick="editarIngresso(${i})" class="edit-expense">Editar</button>
+            <button onclick="excluirIngresso(${i})" class="delete-expense">Excluir</button>
+        `;
+        total += parseFloat(ing.preco);
+    }
+    quantidadeItens.textContent = ingressos.length;
+    valorTotal.textContent = total.toFixed(2);
+}
+
+// Total
+function calcularTotal() {
+    return ingressos.reduce((soma, ing) => soma + parseFloat(ing.preco), 0);
+}
+
+// Quantidade de ingressos
+function quantidadeIngressos() {
+    return ingressos.length;
+}
+
+// Notificação
+function mostrarNotificacao(msg, sucesso = false) {
+    notification.innerHTML = msg;
+    notification.style.display = "block";
+    notification.style.opacity = "1";
+    notification.className = sucesso ? "notification notification-success" : "notification notification-error";
+    setTimeout(() => {
+        notification.style.opacity = "0";
+        setTimeout(() => {
+            notification.style.display = "none";
+        }, 500);
+    }, 2000);
+}
+
+// Adicionar ingresso
 function adicionar_ingresso() {
-    // Obter os valores dos campos
-    let tipo = document.getElementById("tipo_ingresso").value;
-    let preco = parseFloat(document.getElementById("preco").value);
-    let quantidade = parseInt(document.getElementById("quantidade").value);
-    let vendido = parseInt(document.getElementById("vendido").value);
-    let meta_venda = parseInt(document.getElementById("meta_venda").value);
+    const tipo = tipo_ingresso.value.trim();
+    const precoValor = parseFloat(preco.value);
+    const qtd = parseInt(quantidade.value);
+    const qtd_vendido = parseInt(vendido.value);
+    const meta = parseInt(meta_venda.value);
 
-    // Validar os dados
-    if (
-        tipo.trim() === "" ||
-        isNaN(preco) || preco <= 0 ||
-        isNaN(quantidade) || quantidade < 0 ||
-        isNaN(vendido) || vendido < 0 ||
-        isNaN(meta_venda) || meta_venda < 0
-    ) {
-        alert("Por favor, preencha todos os campos corretamente!");
+    if (!tipo || isNaN(precoValor) || precoValor < 0 || isNaN(qtd) || qtd < 0 || isNaN(qtd_vendido) || qtd_vendido < 0 || isNaN(meta) || meta < 0) {
+        mostrarNotificacao("Preencha todos os campos corretamente!", false);
         return;
     }
 
-    // Criar um objeto para o ingresso
-    let ingresso = {
+    ingressos.push({ tipo, preco: precoValor, quantidade: qtd, vendido: qtd_vendido, meta });
+    mostrarNotificacao("Ingresso cadastrado com sucesso!", true);
+
+    atualizarTabelaIngressos();
+    tipo_ingresso.value = "";
+    preco.value = "";
+    quantidade.value = "";
+    vendido.value = "";
+    meta_venda.value = "";
+}
+
+// Excluir ingresso
+function excluirIngresso(index) {
+    ingressos.splice(index, 1);
+    atualizarTabelaIngressos();
+    mostrarNotificacao("Ingresso excluído com sucesso!", false);
+}
+
+// Editar ingresso (abre modal de edição)
+function editarIngresso(index) {
+    const ing = ingressos[index];
+    edit_tipo.value = ing.tipo;
+    edit_preco.value = ing.preco;
+    edit_quantidade.value = ing.quantidade;
+    edit_vendido.value = ing.vendido;
+    edit_meta.value = ing.meta;
+    edit_index.value = index;
+    edicao.style.display = 'block';
+}
+
+// Salvar edição
+document.getElementById('salvar_edicao').onclick = function() {
+    const index = edit_index.value;
+    const tipo = edit_tipo.value.trim();
+    const precoValor = parseFloat(edit_preco.value);
+    const qtd = parseInt(edit_quantidade.value);
+    const qtd_vendido = parseInt(edit_vendido.value);
+    const meta = parseInt(edit_meta.value);
+
+    if (!tipo || isNaN(precoValor) || precoValor < 0 || isNaN(qtd) || qtd < 0 || isNaN(qtd_vendido) || qtd_vendido < 0 || isNaN(meta) || meta < 0) {
+        mostrarNotificacao("Preencha corretamente os campos de edição!", false);
+        return;
+    }
+
+    ingressos[index] = {
         tipo,
-        preco,
-        quantidade,
-        vendido,
-        meta_venda
+        preco: precoValor,
+        quantidade: qtd,
+        vendido: qtd_vendido,
+        meta
     };
 
-    // Adicionar o ingresso ao array
-    listaIngressos.push(ingresso);
-
-    // Atualizar a tabela (se houver)
     atualizarTabelaIngressos();
+    edicao.style.display = 'none';
+    mostrarNotificacao("Ingresso editado com sucesso!", true);
+};
 
-    // Limpar os campos após adicionar
-    document.getElementById("tipo_ingresso").value = "";
-    document.getElementById("preco").value = "";
-    document.getElementById("quantidade").value = "";
-    document.getElementById("vendido").value = "";
-    document.getElementById("meta_venda").value = "";
-}
+// Cancelar edição
+document.getElementById('cancelar_edicao').onclick = function() {
+    edicao.style.display = 'none';
+};
+// Inicialmente esconde a área de edição
+edicao.style.display = 'none';
 
-// Função para atualizar a tabela de ingressos
-function atualizarTabelaIngressos() {
-    let tabela = document.getElementById("tabela_ingressos");
-    if (!tabela) return; // Se não existir tabela, não faz nada
-
-    // Limpar a tabela (exceto o cabeçalho)
-    while (tabela.rows.length > 1) {
-        tabela.deleteRow(1);
-    }
-
-    // Adicionar cada ingresso à tabela
-    for (let i = 0; i < listaIngressos.length; i++) {
-        let ingresso = listaIngressos[i];
-
-        let novaLinha = tabela.insertRow();
-
-        let celTipo = novaLinha.insertCell(0);
-        let celPreco = novaLinha.insertCell(1);
-        let celQuantidade = novaLinha.insertCell(2);
-        let celVendido = novaLinha.insertCell(3);
-        let celMeta = novaLinha.insertCell(4);
-        let celAcoes = novaLinha.insertCell(5);
-
-        celTipo.textContent = ingresso.tipo;
-        celPreco.textContent = ingresso.preco.toFixed(2);
-        celQuantidade.textContent = ingresso.quantidade;
-        celVendido.textContent = ingresso.vendido;
-        celMeta.textContent = ingresso.meta_venda;
-
-        celAcoes.innerHTML = `
-            <button onclick="editarIngresso(${i})">Editar</button>
-            <button onclick="excluirIngresso(${i})">Excluir</button>
-        `;
-    }
-}
-
-// Função para editar um ingresso
-function editarIngresso(indice) {
-    let ingresso = listaIngressos[indice];
-
-    document.getElementById("tipo_ingresso").value = ingresso.tipo;
-    document.getElementById("preco").value = ingresso.preco;
-    document.getElementById("quantidade").value = ingresso.quantidade;
-    document.getElementById("vendido").value = ingresso.vendido;
-    document.getElementById("meta_venda").value = ingresso.meta_venda;
-
-    listaIngressos.splice(indice, 1);
-    atualizarTabelaIngressos();
-}
-
-// Função para excluir um ingresso
-function excluirIngresso(indice) {
-    if (confirm("Tem certeza que deseja excluir este ingresso?")) {
-        listaIngressos.splice(indice, 1);
-        atualizarTabelaIngressos();
-    }
-}
-
-// Função para cadastrar todos os ingressos no servidor
+// Função para validação antes de avançar
 function cadastrar_ingressos() {
-    if (listaIngressos.length === 0) {
-        alert("Adicione pelo menos um ingresso antes de avançar!");
+    if (ingressos.length === 0) {
+        mostrarNotificacao("Adicione pelo menos um ingresso antes de avançar!", false);
         return false;
     }
 
-    // Obter o ID do evento do input ou do localStorage
-    const evento_id = document.getElementById("evento_id").value || sessionStorage.getItem("evento_id");
-    
-    if (!evento_id) {
-        alert("É necessário ter um evento cadastrado primeiro!");
-        return false;
-    }
+    mostrarNotificacao("Ingressos validados! Pronto para avançar!", true);
 
-    let dados = {
-        evento_id: evento_id,
-        ingressos: listaIngressos
+    // Monte os dados corretamente
+    const dados_ingressos = {
+        ingressos: ingressos,
+        quantidade: quantidadeIngressos(),
+        total: calcularTotal(),
+        evento_id: idEvento
     };
+    console.log('teste', dados_ingressos);
 
-    // Enviar dados para o servidor via fetch API
-    fetch("/entrada-dados/cadastrarIngressos", {
+    fetch("/ingresso/cadastrar_ingressos", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(dados)
+        body: JSON.stringify(dados_ingressos)
     })
     .then(resposta => {
-        if (resposta.ok) {
-            return resposta.json();
-        } else {
+        if (!resposta.ok) {
             throw new Error("Erro ao cadastrar ingressos!");
         }
+        return resposta.json();
     })
     .then(resposta => {
         console.log("Resposta do servidor:", resposta);
-        alert("Ingressos cadastrados com sucesso!");
-        
-        // Limpar a lista após cadastro bem-sucedido
-        listaIngressos = [];
-        atualizarTabelaIngressos();
-        
-        // Redirecionar ou continuar para a próxima etapa
-        // window.location.href = "proxima-pagina.html";
+        mostrarNotificacao("Ingressos cadastrados com sucesso!", true);
+        window.location.href = "/dashboard/dashboard.html";
     })
     .catch(erro => {
         console.error("Erro:", erro);
         alert("Erro ao cadastrar ingressos. Por favor, tente novamente.");
     });
 
-    return true;
+    return false;
 }
+
+// Inicializa a tabela ao carregar
+atualizarTabelaIngressos();

@@ -19,7 +19,9 @@ var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var avisosRouter = require("./src/routes/avisos");
 const eventoRouter = require("./src/routes/cadastrar-evento-routes");
-const gastoRouter = require("./src/routes/gasto-routes");
+const gastoRouter = require("./src/routes/gastos-routes");
+const produtoRouter = require("./src/routes/produtos-routes");
+const ingressoRouter = require("./src/routes/ingressos-routes");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -32,6 +34,8 @@ app.use("/usuarios", usuarioRouter);
 app.use("/avisos", avisosRouter);
 app.use("/evento", eventoRouter);
 app.use("/gasto", gastoRouter);
+app.use("/produtos", produtoRouter);
+app.use("/ingresso", ingressoRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

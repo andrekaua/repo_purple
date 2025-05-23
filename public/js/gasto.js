@@ -5,6 +5,7 @@ const notification = document.getElementById('notificacao');
 const tabelaGastos = document.getElementById('tabela_gastos').getElementsByTagName('tbody')[0];
 const quantidadeItens = document.getElementById('quantidade-itens');
 const valorTotal = document.getElementById('valor-total');
+const idEvento = sessionStorage.getItem("evento_id");
 
 function atualizarTabela() {
     tabelaGastos.innerHTML = "";
@@ -38,12 +39,17 @@ function calcularTotal() {
 //notificação - se for certo "true" se for errado "false"
 function mostrarNotificacao(msg, sucesso = false) {
     notification.innerHTML = msg;
-    notification.style.display = "block";   
+    notification.style.display = "block";
+    notification.style.opacity = "1";
     notification.className = sucesso ? "notification notification-success" : "notification notification-error";
     setTimeout(() => {
-        notification.style.display = "none";
+        notification.style.opacity = "0";
+        setTimeout(() => {
+            notification.style.display = "none";
+        }, 500);
     }, 2000);
 }
+
 
 //add gasto
 function add_gasto() {
@@ -78,8 +84,6 @@ function editarGasto(index) {
     document.getElementById('edit_valor').value = gasto.valor;
     document.getElementById('edit').value = index;
     document.getElementById('edicao').style.display = 'block';
-
-    mostrarNotificacao("Gasto editado com sucesso", false);
 }
 
 // Salva o edit
@@ -106,7 +110,7 @@ document.getElementById('cancelar_edicao').onclick = function() {
 
 // cadastrar gastos
 function cadastrar_gastos() {
-    let qtd = quantidadeGastos();
+    let qtd = quantidade();
     console.log("Quantidade de gastos:", qtd);
 
     let total = calcularTotal();
@@ -119,15 +123,15 @@ function cadastrar_gastos() {
     }
 
     const dados_gastos = {
-        evento_id: evento_id,
-        nome: nome,
-        valor_gasto: valor_gasto,
-        qntdd_gastos: qtd
+    gastos: gastos,
+    qntdd_gastos: qtd,
+    total_gastos: total,
+    evento_id: idEvento 
     };
 
     console.log("Dados dos gastos:", dados_gastos);
 
-    fetch("/gasto/cadastrar_evento", {
+    fetch("/gasto/cadastrar_gastos", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -142,10 +146,8 @@ function cadastrar_gastos() {
     })
     .then(resposta => {
         console.log("Resposta do servidor:", resposta);
-        const gastos_id = resposta.gastos_id;
-        sessionStorage.setItem("gastos_id", gastos_id);
-        alert("gastos cadastrado com sucesso! ID: " + gastos_id);
-        window.location.href = "gastos-do-gastos.html";
+        mostrarNotificacao("Gastos cadastrados com sucesso!", true);
+        window.location.href = "produto-adicionais.html";
     })
     .catch(erro => {
         console.error("Erro:", erro);
@@ -156,4 +158,4 @@ function cadastrar_gastos() {
 
     mostrarNotificacao("Gastos validados! Pronto para avançar!", true);
     return true;
-}
+}''

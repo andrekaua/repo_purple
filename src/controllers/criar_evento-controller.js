@@ -21,7 +21,7 @@ function cadastrarEvento(req, res) {
 
         entradaDadosModel.cadastrarEvento(nome, data, local, meta_receita, meta_lucro, organizador_id)
             .then(function (resultado) {
-                const evento_id = resultado.insertId; // <-- CORRIGIDO
+                const evento_id = resultado.insertId;
                 res.json({
                     message: "Evento cadastrado com sucesso!",
                     evento_id: evento_id

@@ -1,148 +1,181 @@
-let listaProdutos = [];
 
-// Função para adicionar produtos à lista
+let produtos = [];
+const produto_nome = document.getElementById('produto');
+const preco_unitario = document.getElementById('preco_unitario');
+const vendido = document.getElementById('vendido');
+const meta_venda = document.getElementById('meta_venda');
+const notification = document.getElementById('notificacao');
+const tabelaProdutos = document.getElementById('tabela_produtos').getElementsByTagName('tbody')[0];
+const idEvento = sessionStorage.getItem("evento_id");
+
+const edit_nome = document.getElementById('edit_nome');
+const edit_valor = document.getElementById('edit_valor');
+const edit_index = document.getElementById('edit');
+const edicao = document.getElementById('edicao');
+
+const quantidadeItens = document.getElementById('quantidade-itens');
+const valorTotal = document.getElementById('valor-total');
+
+// Atualiza a tabela de produtos
+function atualizarTabelaProdutos() {
+    tabelaProdutos.innerHTML = "";
+    let total = 0;
+    for (let i = 0; i < produtos.length; i++) {
+        const prod = produtos[i];
+        const row = tabelaProdutos.insertRow();
+        row.insertCell(0).textContent = prod.nome;
+        row.insertCell(1).textContent = prod.preco.toFixed(2);
+        row.insertCell(2).textContent = prod.vendido;
+        row.insertCell(3).textContent = prod.meta;
+        const acoes = row.insertCell(4);
+        acoes.innerHTML = `
+            <button onclick="editarProduto(${i})" class="edit-expense">Editar</button>
+            <button onclick="excluirProduto(${i})" class="delete-expense">Excluir</button>
+        `;
+        total += prod.preco;
+    }
+    quantidadeItens.textContent = produtos.length;
+    valorTotal.textContent = total.toFixed(2);
+}
+
+// Total
+function calcularTotal() {
+    return produtos.reduce((soma, prod) => soma + prod.preco, 0);
+}
+
+// Quantidade de produtos
+function quantidadeProdutos() {
+    return produtos.length;
+}
+
+// Notificação
+function mostrarNotificacao(msg, sucesso = false) {
+    notification.innerHTML = msg;
+    notification.style.display = "block";
+    notification.style.opacity = "1";
+    notification.className = sucesso ? "notification notification-success" : "notification notification-error";
+    setTimeout(() => {
+        notification.style.opacity = "0";
+        setTimeout(() => {
+            notification.style.display = "none";
+        }, 500);
+    }, 2000);
+}
+
+// Adicionar produto
 function adicionar_produto() {
-    // Obter os valores dos campos
-    let nome = document.getElementById("produto").value;
-    let preco_unitario = parseFloat(document.getElementById("preco_unitario").value);
-    let vendido = parseInt(document.getElementById("vendido").value);
-    let meta_venda = parseInt(document.getElementById("meta_venda").value);
+    const nome = produto_nome.value.trim();
+    const preco = parseFloat(preco_unitario.value);
+    const qtd_vendido = parseInt(vendido.value);
+    const meta = parseInt(meta_venda.value);
 
-    // Validar os dados
-    if (
-        nome.trim() === "" ||
-        isNaN(preco_unitario) || preco_unitario <= 0 ||
-        isNaN(vendido) || vendido < 0 ||
-        isNaN(meta_venda) || meta_venda < 0
-    ) {
-        alert("Por favor, preencha todos os campos corretamente!");
+    if (!nome || isNaN(preco) || preco < 0 || isNaN(qtd_vendido) || qtd_vendido < 0 || isNaN(meta) || meta < 0) {
+        mostrarNotificacao("Preencha todos os campos corretamente!", false);
         return;
     }
 
-    // Criar um objeto para o produto
-    let produto = {
+    produtos.push({ nome, preco, vendido: qtd_vendido, meta,  });
+    mostrarNotificacao("Produto cadastrado com sucesso!", true);
+
+    atualizarTabelaProdutos();
+    produto_nome.value = "";
+    preco_unitario.value = "";
+    vendido.value = "";
+    meta_venda.value = "";
+}
+
+// Excluir produto
+function excluirProduto(index) {
+    produtos.splice(index, 1);
+    atualizarTabelaProdutos();
+    mostrarNotificacao("Produto excluído com sucesso!", false);
+}
+
+// Editar produto (abre modal de edição)
+function editarProduto(index) {
+    const prod = produtos[index];
+    edit_nome.value = prod.nome;
+    edit_valor.value = prod.preco;
+    edit_vendido.value = prod.vendido;
+    edit_meta.value = prod.meta;
+    edit_index.value = index;
+    edicao.style.display = 'block';
+}
+
+// Salvar edição
+document.getElementById('salvar_edicao').onclick = function() {
+    const index = edit_index.value;
+    const nome = edit_nome.value.trim();
+    const preco = parseFloat(edit_valor.value);
+
+    if (!nome || isNaN(preco) || preco < 0) {
+        mostrarNotificacao("Preencha corretamente os campos de edição!", false);
+        return;
+    }
+
+    // Mantém os valores antigos de vendido e meta
+    const antigo = produtos[index];
+    produtos[index] = {
         nome,
-        preco_unitario,
-        vendido,
-        meta_venda
+        preco,
+        vendido: antigo ? antigo.vendido : 0,
+        meta: antigo ? antigo.meta : 0
     };
 
-    // Adicionar o produto ao array
-    listaProdutos.push(produto);
-
-    // Atualizar a tabela (se houver)
     atualizarTabelaProdutos();
+    edicao.style.display = 'none';
+    mostrarNotificacao("Produto editado com sucesso!", true);
+};
 
-    // Limpar os campos após adicionar
-    document.getElementById("produto").value = "";
-    document.getElementById("preco_unitario").value = "";
-    document.getElementById("vendido").value = "";
-    document.getElementById("meta_venda").value = "";
-}
+// Cancelar edição
+document.getElementById('cancelar_edicao').onclick = function() {
+    edicao.style.display = 'none';
+};
+// Inicialmente esconde a área de edição
+edicao.style.display = 'none';
 
-// Função para atualizar a tabela de produtos
-function atualizarTabelaProdutos() {
-    let tabela = document.getElementById("tabela_produtos");
-    if (!tabela) return; // Se não existir tabela, não faz nada
-
-    // Limpar a tabela (exceto o cabeçalho)
-    while (tabela.rows.length > 1) {
-        tabela.deleteRow(1);
-    }
-
-    // Adicionar cada produto à tabela
-    for (let i = 0; i < listaProdutos.length; i++) {
-        let produto = listaProdutos[i];
-
-        let novaLinha = tabela.insertRow();
-
-        let celNome = novaLinha.insertCell(0);
-        let celPreco = novaLinha.insertCell(1);
-        let celVendido = novaLinha.insertCell(2);
-        let celMeta = novaLinha.insertCell(3);
-        let celAcoes = novaLinha.insertCell(4);
-
-        celNome.textContent = produto.nome;
-        celPreco.textContent = produto.preco_unitario.toFixed(2);
-        celVendido.textContent = produto.vendido;
-        celMeta.textContent = produto.meta_venda;
-
-        celAcoes.innerHTML = `
-            <button onclick="editarProduto(${i})">Editar</button>
-            <button onclick="excluirProduto(${i})">Excluir</button>
-        `;
-    }
-}
-
-// Função para editar um produto
-function editarProduto(indice) {
-    let produto = listaProdutos[indice];
-
-    document.getElementById("produto").value = produto.nome;
-    document.getElementById("preco_unitario").value = produto.preco_unitario;
-    document.getElementById("vendido").value = produto.vendido;
-    document.getElementById("meta_venda").value = produto.meta_venda;
-
-    listaProdutos.splice(indice, 1);
-    atualizarTabelaProdutos();
-}
-
-// Função para excluir um produto
-function excluirProduto(indice) {
-    if (confirm("Tem certeza que deseja excluir este produto?")) {
-        listaProdutos.splice(indice, 1);
-        atualizarTabelaProdutos();
-    }
-}
-
-// Função para cadastrar todos os produtos no servidor
+// Função para validação antes de avançar
 function cadastrar_produtos() {
-    if (listaProdutos.length === 0) {
-        alert("Adicione pelo menos um produto antes de avançar!");
+
+    if (produtos.length === 0) {
+        mostrarNotificacao("Adicione pelo menos um produto antes de avançar!", false);
         return false;
     }
 
-    // Obter o ID do evento do input ou do localStorage
-    const evento_id = document.getElementById("evento_id").value || sessionStorage.getItem("evento_id");
+    mostrarNotificacao("Produtos validados! Pronto para avançar!", true);
+
+    // Monte os dados corretamente
+    const dados_produtos = {
+    produtos: produtos,
+    quantidade: quantidadeProdutos(),
+    total: calcularTotal(),
+    evento_id: idEvento
+};
+    console.log('teste', dados_produtos);
     
-    if (!evento_id) {
-        alert("É necessário ter um evento cadastrado primeiro!");
-        return false;
-    }
 
-    let dados = {
-        evento_id: evento_id,
-        produtos: listaProdutos
-    };
-
-    // Enviar dados para o servidor via fetch API
-    fetch("/entrada-dados/cadastrarProdutos", {
+    fetch("/produtos/cadastrar_produtos", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(dados)
+        body: JSON.stringify(dados_produtos)
     })
     .then(resposta => {
-        if (resposta.ok) {
-            return resposta.json();
-        } else {
+        if (!resposta.ok) {
             throw new Error("Erro ao cadastrar produtos!");
         }
+        return resposta.json();
     })
     .then(resposta => {
         console.log("Resposta do servidor:", resposta);
-        alert("Produtos cadastrados com sucesso!");
-        
-        // Limpar a lista após cadastro bem-sucedido
-        listaProdutos = [];
-        atualizarTabelaProdutos();
-        
+        mostrarNotificacao("Produtos cadastrados com sucesso!", true);
+        window.location.href = "tipo-de-ingresso.html";
     })
     .catch(erro => {
         console.error("Erro:", erro);
         alert("Erro ao cadastrar produtos. Por favor, tente novamente.");
     });
 
-    return true;
+    return false; // Para impedir envio de formulário padrão, se necessário
 }

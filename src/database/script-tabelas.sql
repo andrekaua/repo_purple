@@ -25,6 +25,7 @@ CREATE TABLE eventos (
     organizador_id INT NOT NULL,
     nome VARCHAR(100) NOT NULL,
     data DATE NOT NULL,
+    local varchar(100) not null,
     meta_receita DECIMAL(10,2),
     meta_lucro DECIMAL(10,2),
     FOREIGN KEY (organizador_id) REFERENCES organizadores(id)
@@ -36,7 +37,7 @@ CREATE TABLE gastos (
     evento_id INT NOT NULL,
     nome VARCHAR(100),
     valor DECIMAL(10,2) NOT NULL,
-    qntdd_gasto INT,
+    quantidade INT,
     total DECIMAL(10,2),
     FOREIGN KEY (evento_id) REFERENCES eventos(id)
 );
@@ -57,8 +58,11 @@ CREATE TABLE ingressos (
     evento_id INT NOT NULL,
     tipo VARCHAR(50) NOT NULL,
     preco DECIMAL(10,2) NOT NULL,
-    quantidade_total INT NOT NULL,
-    quantidade_vendida INT DEFAULT 0,
+    quantidade_disponivel INT NOT NULL,
+    vendido INT DEFAULT 0,
+    meta int,
+    quantidade int,
+    total decimal(10,2),
     FOREIGN KEY (evento_id) REFERENCES eventos(id)
 );
 
@@ -68,6 +72,9 @@ CREATE TABLE produtos_adicionais (
     evento_id INT NOT NULL,
     nome VARCHAR(100),
     preco_unitario DECIMAL(10,2),
-    quantidade_vendida INT,
+    vendido INT,
+    meta int,
+    quantidade int,
+    total decimal(10,2),
     FOREIGN KEY (evento_id) REFERENCES eventos(id)
 );
