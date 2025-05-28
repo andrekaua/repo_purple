@@ -181,6 +181,7 @@ function cadastrar_ingressos() {
         window.location.href = "/dashboard/dashboard.html";
     })
     .catch(erro => {
+        
         console.error("Erro:", erro);
         alert("Erro ao cadastrar ingressos. Por favor, tente novamente.");
     });
@@ -188,5 +189,4 @@ function cadastrar_ingressos() {
     return false;
 }
 
-// Inicializa a tabela ao carregar
 atualizarTabelaIngressos();

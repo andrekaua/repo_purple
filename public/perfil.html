@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
+    <link rel="stylesheet" href="perfil.css">
+    <title>Perfil</title>
+</head>
+<body>
+    <div id="cabecalho">
+        <h1 id="logo">Purple</h1>
+        <span id="buguer" class="material-symbols-outlined" onclick="botao()">menu</span>
+        <menu id="opcao">
+            <ul>
+                <li>Perfil</li>
+                <li>Sair</li>
+            </ul>
+        </menu>
+    </div>
+
+    <div id="perfil">
+        <div id="foto-perfil">
+            <img src="https://th.bing.com/th/id/OIP.2Jf9Lar5vZiAgeK03l5CZwHaGs?cb=iwp2&rs=1&pid=ImgDetMain" alt="Foto de perfil">
+            </button>
+        </div>
+        <div id="mainzinho">
+            <h2>Informações do Usuário</h2>
+            <div class="info-bloco">
+                <h3>Nome:</h3>
+                <p>Seu Nome Aqui</p>
+            </div>
+            <div class="info-bloco">
+                <h3>Email:</h3>
+                <p>seuemail@email.com</p>
+            </div>
+            <div class="info-bloco">
+                <h3>Telefone:</h3>
+                <p>(11) 99999-9999</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function botao() {
+        const opcao = document.getElementById('opcao');
+        opcao.style.display = opcao.style.display == 'block' ? 'none' : 'block';
+    }
+</script>
+</html>
