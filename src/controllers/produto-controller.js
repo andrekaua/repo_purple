@@ -23,6 +23,25 @@ function cadastrar_produtos(req, res) {
         });
 }
 
+// Buscar produtos por evento
+function buscar_produtos(req, res) {
+    const evento_id = req.params.evento_id;
+
+    if (!evento_id) {
+        return res.status(400).send("ID do evento não informado!");
+    }
+
+    produtoModel.buscarProdutosPorEvento(evento_id)
+        .then(resultado => {
+            res.json(resultado);
+        })
+        .catch(erro => {
+            console.log(erro);
+            res.status(500).json("Erro ao buscar produtos!");
+        });
+}
+
 module.exports = {
-    cadastrar_produtos
+    cadastrar_produtos,
+    buscar_produtos
 };

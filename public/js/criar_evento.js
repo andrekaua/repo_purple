@@ -1,6 +1,7 @@
 const { json } = require("express");
 
 function criar_evento() {
+    const imagem = document.getElementById("imagem").value;
     const nome = document.getElementById("nome").value;
     const data = document.getElementById("data").value;
     const capacidade = document.getElementById("capacidade").value;
@@ -10,13 +11,14 @@ function criar_evento() {
     console.log("organizador teste teste", organizador_id);
     
 
-    if (!nome || !data || !capacidade || !lucro) {
+    if (!nome || !data || !capacidade || !lucro || !imagem) {
         alert("Preencha todos os campos!");
         return false;
     }
 
     const dados = {
         organizador_id: organizador_id,
+        imagem: imagem,
         nome: nome,
         data: data,
         local: local,

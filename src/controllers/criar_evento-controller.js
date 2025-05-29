@@ -7,6 +7,7 @@ function cadastrarEvento(req, res) {
     var local = req.body.local;
     var meta_receita = req.body.meta_receita;
     var meta_lucro = req.body.meta_lucro;
+    var imagem = req.body.imagem; // <-- Adicione isso
 
     if (nome == undefined) {
         res.status(400).send("O nome do evento está undefined!");
@@ -19,7 +20,7 @@ function cadastrarEvento(req, res) {
         meta_receita = meta_receita || 0;
         meta_lucro = meta_lucro || 0;
 
-        entradaDadosModel.cadastrarEvento(nome, data, local, meta_receita, meta_lucro, organizador_id)
+        entradaDadosModel.cadastrarEvento(nome, data, local, meta_receita, meta_lucro, organizador_id, imagem)
             .then(function (resultado) {
                 const evento_id = resultado.insertId;
                 res.json({
@@ -29,7 +30,6 @@ function cadastrarEvento(req, res) {
             })
             .catch(function (erro) {
                 console.log(erro);
-                console.log("\nHouve um erro ao cadastrar o evento! Erro: ", erro.sqlMessage);
                 res.status(500).json(erro.sqlMessage);
             });
     }

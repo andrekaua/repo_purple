@@ -50,7 +50,7 @@ function entrar() {
             most.innerHTML = "Login bem-sucedido! Redirecionando...";
             
             setTimeout(function () {
-                window.location = "criar-evento.html";
+                window.location = "eventos.html";
         }, 1000);
         } else {
             return resposta.text().then(texto => {

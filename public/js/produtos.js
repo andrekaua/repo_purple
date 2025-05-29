@@ -1,4 +1,3 @@
-
 let produtos = [];
 const produto_nome = document.getElementById('produto');
 const preco_unitario = document.getElementById('preco_unitario');
@@ -10,6 +9,8 @@ const idEvento = sessionStorage.getItem("evento_id");
 
 const edit_nome = document.getElementById('edit_nome');
 const edit_valor = document.getElementById('edit_valor');
+const edit_vendido = document.getElementById('edit_vendido');
+const edit_meta = document.getElementById('edit_meta');
 const edit_index = document.getElementById('edit');
 const edicao = document.getElementById('edicao');
 
@@ -24,7 +25,7 @@ function atualizarTabelaProdutos() {
         const prod = produtos[i];
         const row = tabelaProdutos.insertRow();
         row.insertCell(0).textContent = prod.nome;
-        row.insertCell(1).textContent = prod.preco.toFixed(2);
+        row.insertCell(1).textContent = prod.valor.toFixed(2);
         row.insertCell(2).textContent = prod.vendido;
         row.insertCell(3).textContent = prod.meta;
         const acoes = row.insertCell(4);
@@ -32,7 +33,7 @@ function atualizarTabelaProdutos() {
             <button onclick="editarProduto(${i})" class="edit-expense">Editar</button>
             <button onclick="excluirProduto(${i})" class="delete-expense">Excluir</button>
         `;
-        total += prod.preco;
+        total += prod.valor;
     }
     quantidadeItens.textContent = produtos.length;
     valorTotal.textContent = total.toFixed(2);
@@ -40,7 +41,7 @@ function atualizarTabelaProdutos() {
 
 // Total
 function calcularTotal() {
-    return produtos.reduce((soma, prod) => soma + prod.preco, 0);
+    return produtos.reduce((soma, prod) => soma + prod.valor, 0);
 }
 
 // Quantidade de produtos
@@ -65,16 +66,16 @@ function mostrarNotificacao(msg, sucesso = false) {
 // Adicionar produto
 function adicionar_produto() {
     const nome = produto_nome.value.trim();
-    const preco = parseFloat(preco_unitario.value);
+    const valor = parseFloat(preco_unitario.value);
     const qtd_vendido = parseInt(vendido.value);
     const meta = parseInt(meta_venda.value);
 
-    if (!nome || isNaN(preco) || preco < 0 || isNaN(qtd_vendido) || qtd_vendido < 0 || isNaN(meta) || meta < 0) {
+    if (!nome || isNaN(valor) || valor < 0 || isNaN(qtd_vendido) || qtd_vendido < 0 || isNaN(meta) || meta < 0) {
         mostrarNotificacao("Preencha todos os campos corretamente!", false);
         return;
     }
 
-    produtos.push({ nome, preco, vendido: qtd_vendido, meta,  });
+    produtos.push({ nome, valor, vendido: qtd_vendido, meta });
     mostrarNotificacao("Produto cadastrado com sucesso!", true);
 
     atualizarTabelaProdutos();
@@ -95,7 +96,7 @@ function excluirProduto(index) {
 function editarProduto(index) {
     const prod = produtos[index];
     edit_nome.value = prod.nome;
-    edit_valor.value = prod.preco;
+    edit_valor.value = prod.valor;
     edit_vendido.value = prod.vendido;
     edit_meta.value = prod.meta;
     edit_index.value = index;
@@ -104,23 +105,18 @@ function editarProduto(index) {
 
 // Salvar edição
 document.getElementById('salvar_edicao').onclick = function() {
-    const index = edit_index.value;
+    const index = parseInt(edit_index.value);
     const nome = edit_nome.value.trim();
-    const preco = parseFloat(edit_valor.value);
+    const valor = parseFloat(edit_valor.value);
+    const vendido = parseInt(edit_vendido.value);
+    const meta = parseInt(edit_meta.value);
 
-    if (!nome || isNaN(preco) || preco < 0) {
-        mostrarNotificacao("Preencha corretamente os campos de edição!", false);
+    if (!nome || isNaN(valor) || valor < 0 || isNaN(vendido) || vendido < 0 || isNaN(meta) || meta < 0) {
+        mostrarNotificacao("Preencha corretamente todos os campos de edição!", false);
         return;
     }
 
-    // Mantém os valores antigos de vendido e meta
-    const antigo = produtos[index];
-    produtos[index] = {
-        nome,
-        preco,
-        vendido: antigo ? antigo.vendido : 0,
-        meta: antigo ? antigo.meta : 0
-    };
+    produtos[index] = { nome, valor, vendido, meta };
 
     atualizarTabelaProdutos();
     edicao.style.display = 'none';
@@ -131,12 +127,12 @@ document.getElementById('salvar_edicao').onclick = function() {
 document.getElementById('cancelar_edicao').onclick = function() {
     edicao.style.display = 'none';
 };
+
 // Inicialmente esconde a área de edição
 edicao.style.display = 'none';
 
 // Função para validação antes de avançar
 function cadastrar_produtos() {
-
     if (produtos.length === 0) {
         mostrarNotificacao("Adicione pelo menos um produto antes de avançar!", false);
         return false;
@@ -146,13 +142,13 @@ function cadastrar_produtos() {
 
     // Monte os dados corretamente
     const dados_produtos = {
-    produtos: produtos,
-    quantidade: quantidadeProdutos(),
-    total: calcularTotal(),
-    evento_id: idEvento
-};
-    console.log('teste', dados_produtos);
+        produtos: produtos,
+        quantidade: quantidadeProdutos(),
+        total: calcularTotal(),
+        evento_id: idEvento
+    };
     
+    console.log('Dados enviados:', dados_produtos);
 
     fetch("/produtos/cadastrar_produtos", {
         method: "POST",
@@ -174,8 +170,8 @@ function cadastrar_produtos() {
     })
     .catch(erro => {
         console.error("Erro:", erro);
-        alert("Erro ao cadastrar produtos. Por favor, tente novamente.");
+        mostrarNotificacao("Erro ao cadastrar produtos. Por favor, tente novamente.", false);
     });
 
-    return false; // Para impedir envio de formulário padrão, se necessário
+    return false;
 }

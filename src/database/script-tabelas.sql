@@ -67,11 +67,11 @@ CREATE TABLE ingressos (
 );
 
 -- Tabela de produtos adicionais vendidos
-CREATE TABLE produtos_adicionais (
+CREATE TABLE produtos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     evento_id INT NOT NULL,
     nome VARCHAR(100),
-    preco_unitario DECIMAL(10,2),
+    valor DECIMAL(10,2),
     vendido INT,
     meta int,
     quantidade int,

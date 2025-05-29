@@ -23,6 +23,25 @@ function cadastrar_gastos(req, res) {
         });
 }
 
+//buscar gastos
+function buscar_gastos(req, res) {
+    const evento_id = req.params.evento_id;
+
+    if (!evento_id) {
+        return res.status(400).send("ID do evento não informado!");
+    }
+
+    entradaDadosModel.buscarGastosPorEvento(evento_id)
+        .then(resultado => {
+            res.json(resultado);
+        })
+        .catch(erro => {
+            console.log(erro);
+            res.status(500).json("Erro ao buscar gastos!");
+        });
+}
+
 module.exports = {
-    cadastrar_gastos
+    cadastrar_gastos,
+    buscar_gastos
 };

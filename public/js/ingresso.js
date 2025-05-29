@@ -1,4 +1,3 @@
-
 let ingressos = [];
 const tipo_ingresso = document.getElementById('tipo_ingresso');
 const preco = document.getElementById('preco');
@@ -29,7 +28,7 @@ function atualizarTabelaIngressos() {
         const row = tabelaIngressos.insertRow();
         row.insertCell(0).textContent = ing.tipo;
         row.insertCell(1).textContent = parseFloat(ing.preco).toFixed(2);
-        row.insertCell(2).textContent = ing.quantidade;
+        row.insertCell(2).textContent = ing.quantidade_disponivel;
         row.insertCell(3).textContent = ing.vendido;
         row.insertCell(4).textContent = ing.meta;
         const acoes = row.insertCell(5);
@@ -71,16 +70,29 @@ function mostrarNotificacao(msg, sucesso = false) {
 function adicionar_ingresso() {
     const tipo = tipo_ingresso.value.trim();
     const precoValor = parseFloat(preco.value);
-    const qtd = parseInt(quantidade.value);
+    const qtd_disponivel = parseInt(quantidade.value);
     const qtd_vendido = parseInt(vendido.value);
     const meta = parseInt(meta_venda.value);
 
-    if (!tipo || isNaN(precoValor) || precoValor < 0 || isNaN(qtd) || qtd < 0 || isNaN(qtd_vendido) || qtd_vendido < 0 || isNaN(meta) || meta < 0) {
+    if (!tipo || isNaN(precoValor) || precoValor < 0 || isNaN(qtd_disponivel) || qtd_disponivel < 0 || isNaN(qtd_vendido) || qtd_vendido < 0 || isNaN(meta) || meta < 0) {
         mostrarNotificacao("Preencha todos os campos corretamente!", false);
         return;
     }
 
-    ingressos.push({ tipo, preco: precoValor, quantidade: qtd, vendido: qtd_vendido, meta });
+    // Verificar se vendido não é maior que disponível
+    if (qtd_vendido > qtd_disponivel) {
+        mostrarNotificacao("Quantidade vendida não pode ser maior que a disponível!", false);
+        return;
+    }
+
+    ingressos.push({ 
+        tipo, 
+        preco: precoValor, 
+        quantidade_disponivel: qtd_disponivel, 
+        vendido: qtd_vendido, 
+        meta 
+    });
+    
     mostrarNotificacao("Ingresso cadastrado com sucesso!", true);
 
     atualizarTabelaIngressos();
@@ -103,7 +115,7 @@ function editarIngresso(index) {
     const ing = ingressos[index];
     edit_tipo.value = ing.tipo;
     edit_preco.value = ing.preco;
-    edit_quantidade.value = ing.quantidade;
+    edit_quantidade.value = ing.quantidade_disponivel;
     edit_vendido.value = ing.vendido;
     edit_meta.value = ing.meta;
     edit_index.value = index;
@@ -112,22 +124,28 @@ function editarIngresso(index) {
 
 // Salvar edição
 document.getElementById('salvar_edicao').onclick = function() {
-    const index = edit_index.value;
+    const index = parseInt(edit_index.value);
     const tipo = edit_tipo.value.trim();
     const precoValor = parseFloat(edit_preco.value);
-    const qtd = parseInt(edit_quantidade.value);
+    const qtd_disponivel = parseInt(edit_quantidade.value);
     const qtd_vendido = parseInt(edit_vendido.value);
     const meta = parseInt(edit_meta.value);
 
-    if (!tipo || isNaN(precoValor) || precoValor < 0 || isNaN(qtd) || qtd < 0 || isNaN(qtd_vendido) || qtd_vendido < 0 || isNaN(meta) || meta < 0) {
-        mostrarNotificacao("Preencha corretamente os campos de edição!", false);
+    if (!tipo || isNaN(precoValor) || precoValor < 0 || isNaN(qtd_disponivel) || qtd_disponivel < 0 || isNaN(qtd_vendido) || qtd_vendido < 0 || isNaN(meta) || meta < 0) {
+        mostrarNotificacao("Preencha corretamente todos os campos de edição!", false);
+        return;
+    }
+
+    // Verificar se vendido não é maior que disponível
+    if (qtd_vendido > qtd_disponivel) {
+        mostrarNotificacao("Quantidade vendida não pode ser maior que a disponível!", false);
         return;
     }
 
     ingressos[index] = {
         tipo,
         preco: precoValor,
-        quantidade: qtd,
+        quantidade_disponivel: qtd_disponivel,
         vendido: qtd_vendido,
         meta
     };
@@ -141,6 +159,7 @@ document.getElementById('salvar_edicao').onclick = function() {
 document.getElementById('cancelar_edicao').onclick = function() {
     edicao.style.display = 'none';
 };
+
 // Inicialmente esconde a área de edição
 edicao.style.display = 'none';
 
@@ -160,7 +179,8 @@ function cadastrar_ingressos() {
         total: calcularTotal(),
         evento_id: idEvento
     };
-    console.log('teste', dados_ingressos);
+    
+    console.log('Dados enviados:', dados_ingressos);
 
     fetch("/ingresso/cadastrar_ingressos", {
         method: "POST",
@@ -181,12 +201,12 @@ function cadastrar_ingressos() {
         window.location.href = "/dashboard/dashboard.html";
     })
     .catch(erro => {
-        
         console.error("Erro:", erro);
-        alert("Erro ao cadastrar ingressos. Por favor, tente novamente.");
+        mostrarNotificacao("Erro ao cadastrar ingressos. Por favor, tente novamente.", false);
     });
 
     return false;
 }
 
+// Inicializar tabela
 atualizarTabelaIngressos();

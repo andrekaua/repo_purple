@@ -5,7 +5,6 @@ function cadastrarVariosGastos(gastos, qntdd_gastos, total_gastos, evento_id) {
         return Promise.reject("Nenhum gasto para inserir.");
     }
 
-    // Monta os valores para o INSERT
     const valores = gastos.map(g => 
         `(${evento_id}, '${g.nome}', ${g.valor}, ${qntdd_gastos}, ${total_gastos})`
     ).join(", ");
@@ -17,6 +16,17 @@ function cadastrarVariosGastos(gastos, qntdd_gastos, total_gastos, evento_id) {
     return database.executar(instrucao);
 }
 
+//buscar gastos
+function buscarGastosPorEvento(evento_id) {
+    const instrucao = `
+        SELECT nome, valor, quantidade, total
+        FROM gastos 
+        WHERE evento_id = ${evento_id}
+    `;
+    return database.executar(instrucao);
+}
+
 module.exports = {
-    cadastrarVariosGastos
+    cadastrarVariosGastos,
+    buscarGastosPorEvento
 };

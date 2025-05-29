@@ -10,7 +10,7 @@
   
   <h1 id="logo">Purple</h1>
   <div id="eventos">
-    <a href="#" class="evento">Ver outro evento</a>
+    <a href="../eventos.html" class="evento">Ver Eventos</a>
     <a href="../editar-evento.html" class="evento">Editar Evento</a>
   </div>
   <h2 id="evento-nome-data">Festa do tio patinha - 19/5</h2>
@@ -70,108 +70,7 @@
     </div>
   </div>
 </div>
-
+  <script src="../js/dashboard.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // Gráfico de Gastos
-    new Chart(document.getElementById("detalhamento-Gastos"), {
-      type: "doughnut",
-      data: {
-        labels: ["Bebidas", "DJ", "Decoração", "Segurança"],
-        datasets: [{
-          label: "Gastos (R$)",
-          data: [500, 300, 200, 150],
-          backgroundColor: ["#e74c3c", "#3498db", "#f1c40f", "#9b59b6"]
-        }]
-      },
-      options: {
-        plugins: {
-          legend: { position: "right" }
-        }
-      }
-    });
-
-    // Gráfico de Receita
-    new Chart(document.getElementById("detalhamento-Receita"), {
-      type: "doughnut",
-      data: {
-        labels: ["Ingressos", "Produtos"],
-        datasets: [{
-          label: "Receita (R$)",
-          data: [2000, 450],
-          backgroundColor: ["#2ecc71", "#1abc9c"]
-        }]
-      },
-      options: {
-        plugins: {
-          legend: { position: "right" }
-        }
-      }
-    });
-
-    // Gráfico de Ingressos
-    new Chart(document.getElementById("vendas-de-ingresso"), {
-      type: "bar",
-      data: {
-        labels: ["Pista", "Camarote", "VIP"],
-        datasets: [
-          {
-            label: "Ingressos Vendidos",
-            data: [120, 60, 30],
-            backgroundColor: ["#8e44ad", "#8e44ad", "#8e44ad"],
-            borderRadius: 5
-          },
-          {
-            label: "Meta",
-            data: [150, 100, 50],
-            backgroundColor: "rgba(200, 200, 200, 0.4)",
-            borderSkipped: false,
-            borderRadius: 5
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: 'top' }
-        },
-        scales: {
-          y: { beginAtZero: true }
-        }
-      }
-    });
-
-    // Gráfico de Produtos
-    new Chart(document.getElementById("venda-de-produto"), {
-      type: 'bar',
-      data: {
-        labels: ['Dose', 'Shot', 'Narguile'],
-        datasets: [
-          {
-            label: 'Meta',
-            data: [25, 25, 35],
-            backgroundColor: 'rgba(200, 200, 200, 0.4)',
-            borderSkipped: false
-          },
-          {
-            label: 'Vendas',
-            data: [10, 20, 30],
-            backgroundColor: ['#6a0dad', '#6a0dad', '#6a0dad'],
-            borderRadius: 4
-          }
-        ]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        plugins: {
-          legend: { position: 'top' }
-        },
-        scales: {
-          x: { beginAtZero: true }
-        }
-      }
-    });
-  </script>
 </body>
 </html>

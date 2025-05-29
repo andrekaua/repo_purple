@@ -5,17 +5,31 @@ function cadastrarVariosIngressos(ingressos, quantidade, total, evento_id) {
         return Promise.reject("Nenhum ingresso para inserir.");
     }
 
-    const valores = ingressos.map(i =>
-        `(${evento_id}, '${i.tipo}', ${i.preco}, ${i.quantidade_disponivel ?? 0}, ${i.vendido ?? 0}, ${i.meta ?? 0}, ${quantidade ?? 0}, ${total ?? 0})`
-    ).join(", ");
+    // Escapar aspas simples nos tipos de ingresso para evitar SQL injection
+    const valores = ingressos.map(ing => {
+        const tipoEscapado = ing.tipo.replace(/'/g, "''");
+        return `(${evento_id}, '${tipoEscapado}', ${ing.preco}, ${ing.quantidade_disponivel}, ${ing.vendido || 0}, ${ing.meta || 0}, ${quantidade}, ${total})`;
+    }).join(", ");
 
     const instrucao = `
         INSERT INTO ingressos (evento_id, tipo, preco, quantidade_disponivel, vendido, meta, quantidade, total)
         VALUES ${valores};
     `;
+    
+    console.log("SQL Query:", instrucao);
+    return database.executar(instrucao);
+}
+
+function buscarIngressosPorEvento(evento_id) {
+    const instrucao = `
+        SELECT tipo, preco, quantidade_disponivel, vendido, meta, quantidade, total
+        FROM ingressos
+        WHERE evento_id = ${evento_id}
+    `;
     return database.executar(instrucao);
 }
 
 module.exports = {
-    cadastrarVariosIngressos
+    cadastrarVariosIngressos,
+    buscarIngressosPorEvento
 };
