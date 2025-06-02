@@ -182,7 +182,7 @@ function cadastrar_ingressos() {
     
     console.log('Dados enviados:', dados_ingressos);
 
-    fetch("/ingresso/cadastrar_ingressos", {
+    fetch("/ingressos/cadastrar_ingressos", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -198,7 +198,7 @@ function cadastrar_ingressos() {
     .then(resposta => {
         console.log("Resposta do servidor:", resposta);
         mostrarNotificacao("Ingressos cadastrados com sucesso!", true);
-        window.location.href = "/dashboard/dashboard.html";
+        window.location.href = "eventos.html";
     })
     .catch(erro => {
         console.error("Erro:", erro);

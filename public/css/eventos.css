@@ -112,71 +112,115 @@
             color: #a855f7;
         }
 
-        .eventos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
         .evento-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
+            background: linear-gradient(135deg, #fff 80%, #f3e6ff 100%);
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(147, 51, 234, 0.10), 0 1.5px 0 #9333ea;
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            margin: 28px;
+            transition: transform 0.22s, box-shadow 0.22s;
             cursor: pointer;
+            width: 340px;
+            min-height: 30f0px;
+            display: inline-block;
+            vertical-align: top;
+            border: 2.5px solid #9333ea;
+            position: relative;
         }
 
         .evento-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(147, 51, 234, 0.2);
-            border-color: #9333ea;
+            transform: translateY(-10px) scale(1.04);
+            box-shadow: 0 8px 32px rgba(147, 51, 234, 0.18), 0 2px 0 #a855f7;
+            border-color: #a855f7;
         }
 
-        .evento-imagem {
-            height: 200px;
-            background: linear-gradient(45deg, #9333ea, #ec4899);
+        .evento-imagem-wrapper {
             position: relative;
+            width: 100%;
+            height: 190px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #9333ea 60%, #fff 100%);
+        }
+
+        .img-evento {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            border-radius: 16px 16px 0 0;
+            display: block;
+            border-bottom: 3px solid #9333ea;
+        }
+
+        .img-evento-placeholder {
+            width: 100%;
+            height: 190px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            color: #9333ea;
+            font-size: 1.25em;
+            background: linear-gradient(135deg, #f3e6ff 60%, #fff 100%);
+            border-radius: 16px 16px 0 0;
+            border-bottom: 3px solid #9333ea;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
-        
+
+        .evento-overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(90deg, #9333ea 80%, #a855f7 100%);
+            color: #fff;
+            padding: 5px 16px;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(147,51,234,0.10);
+            border: 1.5px solid #fff;
+            z-index: 2;
+        }
+
         .evento-info {
-            padding: 20px;
+            padding: 32px 24px 22px 24px;
+            text-align: left;
+            background: linear-gradient(90deg, #fff 80%, #f3e6ff 100%);
+            border-radius: 0 0 16px 16px;
+            border-top: 1.5px solid #f3e6ff;
         }
 
         .evento-nome {
-            font-size: 1.2rem;
+            font-size: 1.55em;
             font-weight: bold;
-            margin-bottom: 5px;
+            color: #1a0026;
+            margin-bottom: 10px;
+            letter-spacing: 0.7px;
+            text-shadow: none;
         }
 
         .evento-local {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
+            font-size: 1.25em;
+            color: #2d1b4e;
+            margin-bottom: 4px;
+            font-weight: 600;
         }
 
         .evento-data {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: bold;
+            /* Remove position absolute, pois já está no overlay */
+            background: none;
+            color: #fff;
+            font-size: 1em;
+            font-weight: 600;
+            padding: 0;
+            border-radius: 0;
+            position: static;
+            box-shadow: none;
         }
 
         /* Adicione ao eventos.css ou ajuste conforme necessário */
 
 /* Botão Criar Evento */
-#criar-evento {
+.butao {
     display: inline-flex;
     gap: 8px;
     color: #fff;
@@ -192,7 +236,7 @@
     background-color: #9333ea;
 }
 
-#criar-evento:hover{
+.butao:hover{
     transform: translateY(-2px) scale(1.04);
     color: #fff;
 }

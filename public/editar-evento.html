@@ -1,21 +1,158 @@
- <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/entrada-de-dados.css">
-    <title>Criar Evento</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Evento</title>
+  <link rel="stylesheet" href="css/editar.css">
 </head>
 <body>
-    <div>
-        <a href="#"><h1 id="logo">Purple</h1></a>
-            <div id="corpo">
-                <h2 id="h2-edicao">Editar</h2>
-                <a href="criar-evento.html" class="link-pagina">Criação de Evento</a>
-                <a href="gastos-do-evento.html" class="link-pagina">Gasto de Evento</a>
-                <a href="tipo-de-ingresso.html" class="link-pagina">Tipo de Ingresso</a>
-                <a href="produto-adicionais.html" class="link-pagina">Produto Adicionais</a>
-            </div>
+  <div class="container">
+    <h1 id="logo">Purple</h1>
+    <div id="corpo">
+      <h2 id="titulo">Editar Evento</h2>
+      <!-- Dados do Evento -->
+      <section>
+        <h3>Dados do Evento</h3>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome">
+        <label for="data">Data:</label>
+        <input type="date" id="data" name="data">
+        <label for="local">Local:</label>
+        <input type="text" id="local" name="local">
+        <label for="capacidade">Capacidade:</label>
+        <input type="number" id="capacidade" name="capacidade">
+        <label for="lucro">Lucro Desejado:</label>
+        <input type="number" id="lucro" name="lucro">
+        <div id="adicionar">
+          <button id="salvar_evento">Salvar Evento</button>
+        </div>
+      </section>
+      <!-- Gastos -->
+      <section>
+        <h3>Gastos</h3>
+        <div id="adicionar">
+          <button onclick="abrirPopup('popup_gasto')">Adicionar Gasto</button>
+        </div>
+        <table id="tabela_gastos">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Valor</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div id="adicionar">
+          <button id="salvar_gastos">Salvar Gastos</button>
+        </div>
+      </section>
+      <!-- Produtos -->
+      <section>
+        <h3>Produtos</h3>
+        <div id="adicionar">
+          <button onclick="abrirPopup('popup_produto')">Adicionar Produto</button>
+        </div>
+        <table id="tabela_produtos">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Preço</th>
+              <th>Vendido</th>
+              <th>Meta</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div id="adicionar">
+          <button id="salvar_produtos">Salvar Produtos</button>
+        </div>
+      </section>
+      <!-- Ingressos -->
+      <section>
+        <h3>Ingressos</h3>
+        <div id="adicionar">
+          <button onclick="abrirPopup('popup_ingresso')">Adicionar Ingresso</button>
+        </div>
+        <table id="tabela_ingressos">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Preço</th>
+              <th>Quantidade Disponível</th>
+              <th>Vendido</th>
+              <th>Meta</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div id="adicionar">
+          <button id="salvar_ingressos">Salvar Ingressos</button>
+        </div>
+      </section>
     </div>
+  </div>
+
+  <!-- Popups -->
+  <div class="popup-bg" id="popup_gasto" style="display:none;">
+    <div class="popup">
+      <h3>Novo Gasto</h3>
+      <div class="form">
+        <label>Nome: <input type="text" id="novo_gasto_nome"></label>
+        <label>Valor: <input type="number" id="novo_gasto_valor"></label>
+      </div>
+      <div class="edit-actions">
+        <button onclick="fecharPopup('popup_gasto')">Cancelar</button>
+        <button onclick="salvarNovoGasto()">Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="popup-bg" id="popup_produto" style="display:none;">
+    <div class="popup">
+      <h3>Novo Produto</h3>
+      <div class="form">
+        <label>Nome: <input type="text" id="novo_produto_nome"></label>
+        <label>Preço: <input type="number" id="novo_produto_preco"></label>
+        <label>Vendido: <input type="number" id="novo_produto_vendido"></label>
+        <label>Meta: <input type="number" id="novo_produto_meta"></label>
+      </div>
+      <div class="edit-actions">
+        <button onclick="fecharPopup('popup_produto')">Cancelar</button>
+        <button onclick="salvarNovoProduto()">Salvar</button>
+      </div>
+    </div>
+  </div>
+  <div class="popup-bg" id="popup_ingresso" style="display:none;">
+    <div class="popup">
+      <h3>Novo Ingresso</h3>
+      <div class="form">
+        <label>Tipo:
+          <select id="novo_ingresso_tipo">
+            <option value="">Selecione o tipo de ingresso</option>
+            <option value="Ingresso Pista">Ingresso Pista</option>
+            <option value="Ingresso Front">Ingresso Front</option>
+            <option value="Ingresso Camarote">Ingresso Camarote</option>
+            <option value="Ingresso Backstage">Ingresso Backstage</option>
+            <option value="Ingresso Estudante">Ingresso Estudante</option>
+            <option value="Ingresso Meia-Entrada">Ingresso Meia-Entrada</option>
+            <option value="Ingresso VIP">Ingresso VIP</option>
+          </select>
+        </label>
+        <label>Preço: <input type="number" id="novo_ingresso_preco"></label>
+        <label>Quantidade Disponível: <input type="number" id="novo_ingresso_qtd"></label>
+        <label>Vendido: <input type="number" id="novo_ingresso_vendido"></label>
+        <label>Meta: <input type="number" id="novo_ingresso_meta"></label>
+      </div>
+      <div class="edit-actions">
+        <button onclick="fecharPopup('popup_ingresso')">Cancelar</button>
+        <button onclick="salvarNovoIngresso()">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/editar_eventos.js"></script>
 </body>
 </html>

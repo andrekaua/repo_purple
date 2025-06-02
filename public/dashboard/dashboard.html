@@ -7,70 +7,104 @@
   <title>Dashboard</title>
 </head>
 <body>
-  
-  <h1 id="logo">Purple</h1>
-  <div id="eventos">
-    <a href="../eventos.html" class="evento">Ver Eventos</a>
-    <a href="../editar-evento.html" class="evento">Editar Evento</a>
+  <div class="header-container">
+    <h1 id="logo">Purple</h1>
+    <div id="eventos">
+      <a id="ver-eventos-link" class="evento">Ver Eventos</a>
+      <a id="editar-evento-link" class="evento">Editar Evento</a>
+      <a id="deletar-evento-link" class="evento">Deletar Evento</a>
+    </div>
   </div>
-  <h2 id="evento-nome-data">Festa do tio patinha - 19/5</h2>
+  
+  <h2 id="evento-nome-data"></h2>
 
   <section id="kpis">
     <div class="kpi">
       <h3>Gastos Totais</h3>
-      <p class="dinheiro">13.000</p>
-      <div class="progress-container">
-        <div class="progress-bar" style="width: 30%;"></div>
-      </div>
+      <p class="dinheiro">0</p>
     </div>
     <div class="kpi">
       <h3>Receita Atual</h3>
-      <p class="dinheiro">13.000</p>
-      <div class="progress-container">
-        <div class="progress-bar" style="width: 50%;"></div>
-      </div>
+      <p class="dinheiro">0</p>
     </div>
     <div class="kpi">
       <h3>Status Financeiro</h3>
-      <p>Bom</p>
+      <p>---</p>
     </div>
     <div class="kpi">
       <h3>Lucro Atual</h3>
-      <p class="dinheiro">13.000</p>
-      <div class="progress-container">
-        <div class="progress-bar" style="width: 10%;"></div>
-      </div>
+      <p class="dinheiro">0</p>
     </div>
   </section>
 
-
-<div id="analise-venda">
-  <div id="secao-analise-financeira">
-    <div id="analises">
-      <div class="detalhe-financeiro">
-        <h3>Gastos</h3>
-        <canvas id="detalhamento-Gastos"></canvas>
+  <div id="analise-venda">
+    <div id="secao-analise-financeira">
+      <div id="analises">
+        <div class="detalhe-financeiro">
+          <h3>Gastos</h3>
+          <canvas id="detalhamento-Gastos"></canvas>
+        </div>
+        <div class="detalhe-financeiro">
+          <h3>Receita</h3>
+          <canvas id="detalhamento-Receita"></canvas>
+        </div>
       </div>
-      <div class="detalhe-financeiro">
-        <h3>Receita</h3>
-        <canvas id="detalhamento-Receita"></canvas>
+    </div>
+
+    <div id="secao-venda">
+      <div class="venda-container">
+        <h3>Venda de Ingressos por Categoria</h3>
+        <canvas id="vendas-de-ingresso"></canvas>
+      </div>
+      <div class="venda-container">
+        <h3>Venda de Produtos Adicionais</h3>
+        <canvas id="venda-de-produto"></canvas>
       </div>
     </div>
   </div>
 
-  <div id="secao-venda">
-    <div>
-      <h3>Venda de Ingressos por Categoria</h3>
-      <canvas id="vendas-de-ingresso"></canvas>
-    </div>
-
-    <div>
-      <h3>Venda de produtos adicionais</h3>
-      <canvas id="venda-de-produto"></canvas>
-    </div>
-  </div>
-</div>
-  <script src="../js/dashboard.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script>
+    // Corrige os links para passar o id do evento e do organizador
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventoId = urlParams.get("id");
+    const organizadorId = sessionStorage.getItem("organizador_id");
+
+    if (eventoId) {
+      document.getElementById("editar-evento-link").href = `../editar-evento.html?id=${eventoId}`;
+    } else {
+      document.getElementById("editar-evento-link").href = "../editar-evento.html";
+    }
+
+    if (organizadorId) {
+      document.getElementById("ver-eventos-link").href = `../eventos.html?id_organizador=${organizadorId}`;
+    } else {
+      document.getElementById("ver-eventos-link").href = "../eventos.html";
+    }
+
+    document.getElementById("deletar-evento-link").addEventListener("click", async function(e) {
+      e.preventDefault();
+      if (!eventoId) {
+        alert("Evento não encontrado!");
+        return;
+      }
+      if (confirm("Tem certeza que deseja deletar este evento? Essa ação não pode ser desfeita.")) {
+        try {
+          const organizadorIdQuery = localStorage.getItem("organizador_id") || sessionStorage.getItem("organizador_id");
+          const resposta = await fetch(`/evento/deletar_evento/${eventoId}?organizador_id=${organizadorIdQuery}`, { method: "DELETE" });
+          if (resposta.ok) {
+            alert("Evento deletado com sucesso!");
+            window.location.href = "../eventos.html";
+          } else {
+            const erro = await resposta.text();
+            alert("Erro ao deletar evento: " + erro);
+          }
+        } catch (err) {
+          alert("Erro ao deletar evento: " + err.message);
+        }
+      }
+    });
+  </script>
 </body>
 </html>

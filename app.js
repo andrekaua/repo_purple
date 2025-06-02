@@ -1,5 +1,5 @@
-// var ambiente_processo = 'producao';
-var ambiente_processo = 'desenvolvimento';
+var ambiente_processo = 'producao';
+//var ambiente_processo = 'desenvolvimento';
 
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 // Acima, temos o uso do operador ternário para definir o caminho do arquivo .env
@@ -22,6 +22,9 @@ const eventoRouter = require("./src/routes/cadastrar-evento-routes");
 const gastoRouter = require("./src/routes/gastos-routes");
 const produtoRouter = require("./src/routes/produtos-routes");
 const ingressoRouter = require("./src/routes/ingressos-routes");
+const editarEventoRouter = require("./src/routes/editar-evento-routes");
+const deletarEventoRouter = require("./src/routes/deletar-evento-routes");
+const uploadRouter = require('./src/routes/upload-routes');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -35,7 +38,10 @@ app.use("/avisos", avisosRouter);
 app.use("/evento", eventoRouter);
 app.use("/gasto", gastoRouter);
 app.use("/produtos", produtoRouter);
-app.use("/ingresso", ingressoRouter);
+app.use("/ingressos", ingressoRouter);
+app.use("/editar-evento", editarEventoRouter);
+app.use("/evento", deletarEventoRouter);
+app.use('/upload', uploadRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

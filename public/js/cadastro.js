@@ -1,11 +1,9 @@
-// Atualiza o label do documento conforme o tipo selecionado
 function atualizarLabelDocumento() {
     const tipo = document.getElementById("tipo_documento").value;
     const label = document.getElementById("label_documento");
     label.innerText = tipo === "cnpj" ? "CNPJ:" : tipo === "cpf" ? "CPF:" : "Documento:";
 }
 
-// Validação e cadastro
 function cadastrar() {
     const tipo = document.getElementById("tipo_documento").value;
     const documento = document.getElementById("documento").value.trim();
@@ -65,7 +63,6 @@ function cadastrar() {
         return;
     }
 
-    // Monta o corpo do JSON
     const body = {
         documento: documento,
         nome: nome,
@@ -76,7 +73,6 @@ function cadastrar() {
 
     console.log("JSON enviado:", JSON.stringify(body));
     
-    // Faz a requisição para cadastro
     fetch("/usuarios/cadastrar", {
         method: "POST",
         headers: {

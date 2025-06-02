@@ -44,7 +44,17 @@ function entrar() {
             const dados_usuario = await resposta.json();
             // Salva o id do usuário como organizador_id
             sessionStorage.setItem("dados_usuarios", JSON.stringify(dados_usuario));
-            console.log("miguel gay", dados_usuario);
+            // Salvar organizador_id no localStorage para uso global
+            let organizador_id = null;
+            if (Array.isArray(dados_usuario) && dados_usuario.length > 0 && dados_usuario[0].id) {
+                organizador_id = dados_usuario[0].id;
+            } else if (dados_usuario.id) {
+                organizador_id = dados_usuario.id;
+            }
+            if (organizador_id) {
+                localStorage.setItem("organizador_id", organizador_id);
+            }
+            console.log("Login bem-sucedido, organizador_id:", organizador_id);
 
             most.style.color = "rgba(0, 255, 47, 0.691)";
             most.innerHTML = "Login bem-sucedido! Redirecionando...";

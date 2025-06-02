@@ -4,93 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/produtos.css">
-    <title>Produtos Adicionais</title>
+    <title>Produtos do Evento</title>
 </head>
 <body>
     <div class="container">
         <h1 id="logo">Purple</h1>
         <div id="corpo">
-            <h2 id="titulo">Produtos Adicionais</h2>
-
+            <h2 id="titulo">Produtos do Evento</h2>
             <div id="notificacao" class="notification"></div>
-
-            <form class="form" onsubmit="event.preventDefault(); adicionar_produto();">
-                <label for="produto">Nome do produto:</label>
-                <input type="text" id="produto" name="produto" required>
-
-                <label for="preco_unitario">Preço unitário (R$):</label>
-                <input type="number" id="preco_unitario" name="preco_unitario" step="0.01" min="0" required>
-
+            <!-- Formulário para adicionar produto -->
+            <div class="form">
+                <label for="produto">Nome:</label>
+                <input type="text" id="produto" placeholder="Ex: Camiseta">
+            </div>
+            <div class="form">
+                <label for="preco_unitario">Preço (R$):</label>
+                <input type="number" id="preco_unitario" placeholder="0.00" step="0.01" min="0">
+            </div>
+            <div class="form">
                 <label for="vendido">Vendido:</label>
-                <input type="number" id="vendido" name="vendido" min="0" required>
-
+                <input type="number" id="vendido" placeholder="0" min="0">
+            </div>
+            <div class="form">
                 <label for="meta_venda">Meta de venda:</label>
-                <input type="number" id="meta_venda" name="meta_venda" min="0" required>
-
-                <div id="adicionar">
-                    <button type="submit">Adicionar</button>
-                </div>
-            </form>
-
-          <div id="lista">  
-            <table id="tabela_produtos">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Preço Unitário (R$)</th>
-                        <th>Vendido</th>
-                        <th>Meta de Venda</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Os produtos adicionados aparecerão aqui -->
-                </tbody>
-            </table>
-                <div id="total-gasto">
+                <input type="number" id="meta_venda" placeholder="0" min="0">
+            </div>
+            <div id="adicionar">
+                <button type="button" id="adicionar_produto" onclick="adicionar_produto()">Adicionar</button>
+            </div>
+            <!-- Tabela para mostrar produtos -->
+            <div id="lista">
+                <h3>Produtos Cadastrados</h3>
+                <table id="tabela_produtos">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Preço</th>
+                            <th>Vendido</th>
+                            <th>Meta</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Os produtos serão adicionados aqui-->
+                    </tbody>
+                </table>
+                <!-- Total dos produtos -->
+                <div id="total-produto">
                     <span>Quantidade de itens: <span id="quantidade-itens">0</span></span>
                     <span>Total: R$ <span id="valor-total">0.00</span></span>
                 </div>
             </div>
-
-            <!-- Área para edição de gastos -->
-            <div id="edicao">
-                <h3>Editar Gasto</h3>
-                
+            <!-- Área para edição de produtos -->
+            <div id="edicao" style="display:none;">
+                <h3>Editar Produto</h3>
                 <div class="form">
                     <label for="edit_nome">Nome:</label>
-                    <input type="text" id="edit_nome" placeholder="Nome do gasto">
+                    <input type="text" id="edit_nome" placeholder="Nome do produto">
                 </div>
-                
                 <div class="form">
-                    <label for="edit_valor">Valor (R$):</label>
-                    <input type="number" id="edit_valor" placeholder="0.00" step="1.00" min="0">
+                    <label for="edit_valor">Preço (R$):</label>
+                    <input type="number" id="edit_valor" placeholder="0.00" step="0.01" min="0">
                 </div>
-
                 <div class="form">
-                    <label for="edit_valor">Vendido (R$):</label>
-                    <input type="number" id="edit_vendido" placeholder="0.00" step="1.00" min="0">
+                    <label for="edit_vendido">Vendido:</label>
+                    <input type="number" id="edit_vendido" placeholder="0" min="0">
                 </div>
-
                 <div class="form">
-                    <label for="edit_valor">Meta de venda (R$):</label>
-                    <input type="number" id="edit_meta" placeholder="0.00" step="1.00" min="0">
+                    <label for="edit_meta">Meta de venda:</label>
+                    <input type="number" id="edit_meta" placeholder="0" min="0">
                 </div>
-                
                 <input type="hidden" id="edit">
-                
                 <div class="edit-actions">
                     <button type="button" id="salvar_edicao" class="button-save">Salvar</button>
                     <button type="button" id="cancelar_edicao" class="button-cancel">Cancelar</button>
                 </div>
             </div>
-
             <div id="navegacao">
-                <button type="button" id="botao-princ" onclick="cadastrar_produtos()/*{window.location.href='../dashboard/dashboard.html'}*/">Avançar</button>
+                <button type="button" id="botao-princ" onclick="cadastrar_produtos()">Avançar</button>
             </div>
         </div>
     </div>
-    
     <script src="js/produtos.js"></script>
 </body>
 </html>

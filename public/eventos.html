@@ -11,16 +11,10 @@
     <div id="cabecalho">
         <h1 id="logo">Purple</h1>
         <input id="pesquisa" type="text" placeholder="Pesquisar evento">
-        <button id="criar-evento" onclick="window.location.href='criar-evento.html'">
+        <button class="butao" id="criar-evento" onclick="window.location.href='criar-evento.html'">
             Criar evento
         </button>
-        <span id="buguer" class="material-symbols-outlined" onclick="botao()">menu</span>
-        <menu id="opcao">
-            <ul>
-                <li>Perfil</li>
-                <li>Sair</li>
-            </ul>
-        </menu>
+        <button class="butao" id="sair-conta" style="margin-left:12px;">Sair</button>
     </div>
 
     <div class="main">
@@ -29,111 +23,17 @@
         </div>
 
         <div class="eventos-grid" id="eventosGrid">
-            <!-- Os eventos criados aparecerão aqui -->
+            <!-- eventos criados-->
         </div>
     </div>
-
+    <script src="js/evento.js"></script>
     <script>
-        // Array para armazenar eventos criados
-        let eventosPersonalizados = [];
-
-        function botao() {
-            const opcao = document.getElementById('opcao');
-            if (opcao.style.display == 'block') {
-                opcao.style.display = 'none';
-            } else {
-                opcao.style.display = 'block';
-            }
-        }
-
-         
-        function adicionarEvento(dadosEvento) {
-            const eventosGrid = document.getElementById('eventosGrid');
-            
-            // Formatar data se existir
-            let dataFormatada = '';
-            if (dadosEvento.data) {
-                const data = new Date(dadosEvento.data + 'T00:00:00');
-                const dia = data.getDate().toString().padStart(2, '0');
-                const mes = (data.getMonth() + 1).toString().padStart(2, '0');
-                dataFormatada = `Dia ${dia}/${mes}`;
-            }
-            
-            // Determinar classe do tema
-            const classTema = dadosEvento.tema || 'boss';
-            
-            // Determinar nome de exibição no card
-            let nomeDisplay = dadosEvento.nome ? dadosEvento.nome.toUpperCase() : 'EVENTO';
-
-            const eventoHTML = `
-                <div class="evento-card">
-                    <div class="evento-imagem ${classTema}">
-                        ${dadosEvento.data ? `<div class="evento-data">${dataFormatada}</div>` : ''}
-                        ${nomeDisplay}
-                    </div>
-                    <div class="evento-info">
-                        <div class="evento-nome">${dadosEvento.nome || 'Nome do Evento'}</div>
-                        <div class="evento-local">${dadosEvento.local || 'Local do Evento'}</div>
-                    </div>
-                </div>
-            `;
-            
-            // Adicionar ao DOM
-            eventosGrid.insertAdjacentHTML('beforeend', eventoHTML);
-            
-            // Adicionar event listeners para o novo card
-            const novoCard = eventosGrid.lastElementChild;
-            adicionarEventListenersCard(novoCard);
-        }
-
-        function adicionarEventListenersCard(card) {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        }
-
-        // Função de busca de eventos
-        document.getElementById('pesquisa').addEventListener('input', function(e) {
-            const termoBusca = e.target.value.toLowerCase();
-            const cards = document.querySelectorAll('.evento-card');
-            
-            cards.forEach(card => {
-                const nomeEvento = card.querySelector('.evento-nome').textContent.toLowerCase();
-                const localEvento = card.querySelector('.evento-local').textContent.toLowerCase();
-                const dataEvento = card.querySelector('.evento-data').textContent.toLowerCase();
-                
-                if (nomeEvento.includes(termoBusca) || localEvento.includes(termoBusca) || dataEvento.includes(termoBusca)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-
-        // Exemplo de como adicionar um evento (pode ser removido)
-        adicionarEvento({
-         imagem: '...',
-         nome: 'campo',
-         local: 'rua',
-         data: '2025-02-02',
-     });
-     adicionarEvento({
-         nome: 'Meu Evento',
-         local: 'São Paulo',
-         data: '2025-05-25',
-     });adicionarEvento({
-         nome: 'Meu Evento',
-         local: 'São Paulo',
-         data: '2025-05-25',
-     });adicionarEvento({
-         nome: 'Meu Evento',
-         local: 'São Paulo',
-         data: '2025-05-25',
-     });
+      document.getElementById('sair-conta').addEventListener('click', function() {
+        
+        localStorage.removeItem('organizador_id');
+        sessionStorage.removeItem('organizador_id');
+        window.location.href = 'index.html'; 
+      });
     </script>
 </body>
 </html>

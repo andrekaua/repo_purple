@@ -74,12 +74,11 @@
   select:hover {
     background-color: #7a1dd3;
     box-shadow: 0 0 7px 2px #831fe0;
-    transform: scale(1.07);
-    font-size: 19px;
   }
   
   input::placeholder, select::placeholder {
     font-size: 15px;
+    border: 2px #831fe0;
     color: rgb(255, 255, 255);
   }
 

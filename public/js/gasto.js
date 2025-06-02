@@ -147,7 +147,9 @@ function cadastrar_gastos() {
     .then(resposta => {
         console.log("Resposta do servidor:", resposta);
         mostrarNotificacao("Gastos cadastrados com sucesso!", true);
-        window.location.href = "produto-adicionais.html";
+        setTimeout(() => {
+            window.location.href = "produto-adicionais.html";
+        }, 1000); // Aguarda 1 segundo para mostrar a notificação
     })
     .catch(erro => {
         console.error("Erro:", erro);
@@ -158,4 +160,4 @@ function cadastrar_gastos() {
 
     mostrarNotificacao("Gastos validados! Pronto para avançar!", true);
     return true;
-}''
+}

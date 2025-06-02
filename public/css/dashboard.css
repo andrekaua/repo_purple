@@ -1,255 +1,205 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-body {
-  background: linear-gradient(135deg, #1B0029, #2C003E);
-  color: white;
-  line-height: 1.6;
-  padding: 20px;
-}
+    body {
+      background: linear-gradient(135deg, #1B0029, #2C003E, #3D0052);
+      color: white;
+      line-height: 1.4;
+      padding: 15px;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
 
-#logo {
-  text-align: left;
-  font-weight: bold;
-  font-size: 50px;
-  margin-bottom: 20px;
-  color: white;
-}
+    #logo {
+      text-align: left;
+      font-weight: bold;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: white;
+      text-shadow: 0 0 20px rgba(203, 76, 220, 0.5);
+    }
 
-#eventos {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  display: flex;
-  gap: 10px;
-}
+    #eventos {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      display: flex;
+      gap: 8px;
+    }
 
-.evento {
-  background-color: #7b1988;
-  text-decoration: none;
-  color: white;
-  border: none;
-  padding: 10px 10px;
-  border-radius: 10px;
-  font-size: 17px;
-  cursor: pointer;
-  transition: 0.5s;
-  font-weight: bold;
-}
+    .evento {
+      background: linear-gradient(45deg, #7b1988, #9c1fa8);
+      text-decoration: none;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(123, 25, 136, 0.3);
+    }
 
-.evento:hover {
-  background-color: #c72edb;
-  padding: 15px 25px;
-}
+    .evento:hover {
+      background: linear-gradient(45deg, #c72edb, #e940ff);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(203, 76, 220, 0.4);
+    }
 
-#evento-nome-data {
-  text-align: center;
-  font-size: 30px;
-  margin-bottom: 40px;
-  color: #ffffff;
-}
+    #evento-nome-data {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: #ffffff;
+      text-shadow: 0 0 15px rgba(203, 76, 220, 0.3);
+    }
 
-#kpis {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-  margin-bottom: 40px;
-}
+    #kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
 
-.kpi {
-  background: linear-gradient(60deg, #560c67, #50075a);
-  border-radius: 15px;
-  padding: 15px;
-  width: 220px;
-  text-align: center;
-  box-shadow: 0 10px 20px rgba(106, 19, 152, 0.4);
-  transition: 0.5s;
-}
+    .kpi {
+      background: linear-gradient(135deg, #560c67, #50075a, #3d0045);
+      border-radius: 12px;
+      padding: 12px 50px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(106, 19, 152, 0.3);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(203, 76, 220, 0.2);
+      backdrop-filter: blur(10px);
+    }
 
-.kpi:hover {
-  transform: translateY(-10px);
-  background: linear-gradient(60deg, #c72edb, #a020ba);
-  color: white;
-}
+    .kpi:hover {
+      transform: translateY(-5px);
+      background: linear-gradient(135deg, #c72edb, #a020ba, #7b1988);
+      color: white;
+      box-shadow: 0 12px 30px rgba(203, 76, 220, 0.4);
+    }
 
-.kpi h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: rgba(255, 255, 255, 0.9);
-}
+    .kpi h3 {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+    }
 
-.kpi p {
-  font-size: 25px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
+    .kpi p {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    
+    #analise-venda {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      flex: 1;
+      min-height: 0;
+    }
 
-.progress-container {
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  height: 10px;
-  margin-top: 10px;
-  overflow: hidden;
-}
+    #secao-analise-financeira,
+    #secao-venda {
+      background: linear-gradient(135deg, rgba(30, 0, 51, 0.8), rgba(45, 0, 62, 0.6));
+      padding: 15px;
+      border-radius: 15px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(203, 76, 220, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
 
-.progress-bar {
-  height: 100%;
-  background-color: #fb3c3c;
-  transition: width 0.5s ease-in-out;
-}
+    #secao-analise-financeira h3,
+    #secao-venda h3 {
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      color: #cb4cdc;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(203, 76, 220, 0.3);
+    }
 
-#secao-analise-financeira h3,
-#secao-venda h3 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #cb4cdc;
-}
+    #analises {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      flex: 1;
+      min-height: 0;
+    }
 
-canvas {
-  max-width: 100%;
-  height: auto;
-}
+    .detalhe-financeiro {
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(45, 0, 62, 0.3));
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(106, 19, 152, 0.2);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(203, 76, 220, 0.1);
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
 
-#vendas-de-ingresso,
-#venda-de-produto {
-  width: 450px;
-}
+    .detalhe-financeiro:hover {
+      transform: translateY(-3px);
+      background: linear-gradient(135deg, rgba(54, 3, 61, 0.8), rgba(26, 0, 32, 0.6));
+      box-shadow: 0 10px 25px rgba(145, 20, 167, 0.3);
+    }
 
-/* NOVA SEÇÃO PARA ORGANIZAR EM COLUNAS */
-#analise-e-venda {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-}
+    .detalhe-financeiro h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: #cb4cdc;
+    }
 
-#secao-analise-financeira,
-#secao-venda {
-  flex-direction: column;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
+    .detalhe-financeiro canvas {
+      flex: 1;
+      min-height: 0;
+    }
 
-/* ANTIGAS SEÇÕES MANTIDAS, MAS NÃO PRECISAM MAIS CONTROLAR A FLEX PRINCIPAL */
-#secao-analise-financeira {
-  margin-bottom: 40px;
-}
+    #secao-venda {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
 
-#analises {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
+    #secao-venda > div {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(45, 0, 62, 0.3));
+      border-radius: 12px;
+      padding: 15px;
+      border: 1px solid rgba(203, 76, 220, 0.1);
+    }
 
-.detalhe-financeiro {
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 15px;
-  width: 100%;
-  max-width: 350px;
-  padding: 25px;
-  text-align: center;
-  box-shadow: 0 10px 20px rgba(106, 19, 152, 0.4);
-  transition: 0.3s;
-}
+    #secao-venda h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      text-align: center;
+    }
 
-.detalhe-financeiro:hover {
-  transform: translateY(-10px);
-  background: linear-gradient(180deg, #36033d, #1a0020);
-  box-shadow: 0 15px 25px rgba(145, 20, 167, 0.6);
-}
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 0;
+    }
 
-#secao-venda {
-  margin-bottom: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#analise-venda {
-  display: flex;
-  justify-content: space-between;
-  gap: 30px;
-  flex-wrap: wrap; /* quebra em telas pequenas */
-  margin-top: 20px;
-}
-
-#secao-analise-financeira,
-#secao-venda {
-  flex: 1;
-  min-width: 300px;
-  background-color: #1e0033;
-  padding: 20px;
-  border-radius: 15px;
-}
-
-#analises {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.detalhe-financeiro {
-  flex: 1;
-  min-width: 200px;
-}
-
-canvas {
-  width: 100% !important;
-  height: auto !important;
-}
-
-
-/* Responsividade */
-@media (max-width: 768px) {
-  #logo {
-    font-size: 2.5rem;
-    text-align: center;
-  }
-
-  #evento-nome-data {
-    font-size: 2rem;
-  }
-
-  #kpis {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .kpi {
-    width: 90%;
-    max-width: 350px;
-  }
-
-  #analises {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .detalhe-financeiro {
-    width: 90%;
-  }
-
-  #secao-venda {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #eventos {
-    flex-direction: column;
-    align-items: flex-end;
-    top: 10px;
-  }
-
-  #analise-e-venda {
-    flex-direction: column;
-    align-items: center;
-  }
-}
+    #vendas-de-ingresso,
+    #venda-de-produto {
+      flex: 1;
+      min-height: 0;
+    }
