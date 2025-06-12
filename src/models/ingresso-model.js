@@ -4,8 +4,7 @@ function cadastrarVariosIngressos(ingressos, quantidade, total, evento_id) {
     if (!Array.isArray(ingressos) || ingressos.length === 0) {
         return Promise.reject("Nenhum ingresso para inserir.");
     }
-
-    // Escapar aspas simples nos tipos de ingresso para evitar SQL injection
+    
     const valores = ingressos.map(ing => {
         const tipoEscapado = ing.tipo.replace(/'/g, "''");
         return `(${evento_id}, '${tipoEscapado}', ${ing.preco}, ${ing.quantidade_disponivel}, ${ing.vendido || 0}, ${ing.meta || 0}, ${quantidade}, ${total})`;

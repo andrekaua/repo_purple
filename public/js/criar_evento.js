@@ -1,6 +1,5 @@
 function criar_evento() {
     console.log("Iniciando criação de evento...");
-    // Capturar os valores dos campos
     const nome = document.getElementById("nome").value.trim();
     const data = document.getElementById("data").value;
     const capacidade = document.getElementById("capacidade").value;
@@ -8,7 +7,6 @@ function criar_evento() {
     const local = document.getElementById("local").value.trim();
     const inputImagem = document.getElementById('imagem');
 
-    // Verificar se os dados do usuário estão no sessionStorage
     const dadosUsuarios = sessionStorage.getItem("dados_usuarios");
     if (!dadosUsuarios) {
         alert("Erro: Dados do usuário não encontrados. Faça login novamente.");
@@ -31,7 +29,6 @@ function criar_evento() {
     }
     console.log("ID do organizador:", organizador_id);
 
-    // Validação dos campos obrigatórios
     if (!nome) {
         alert("Por favor, preencha o nome do evento!");
         document.getElementById("nome").focus();
@@ -53,7 +50,6 @@ function criar_evento() {
         return false;
     }
 
-    // Função auxiliar para enviar o evento após upload da imagem
     function enviarEvento(imagemUrl) {
         const capacidadeNum = parseFloat(capacidade);
         const lucroNum = parseFloat(lucro);
@@ -110,7 +106,6 @@ function criar_evento() {
         });
     }
 
-    // Upload da imagem (se houver)
     if (inputImagem && inputImagem.files && inputImagem.files[0]) {
         const formData = new FormData();
         formData.append('imagem', inputImagem.files[0]);
@@ -128,10 +123,9 @@ function criar_evento() {
     } else {
         enviarEvento(null);
     }
-    return false; // Prevenir o submit padrão do formulário
+    return false; 
 }
 
-// Função para validar URL
 function isValidUrl(string) {
     try {
         const url = new URL(string);
@@ -141,7 +135,6 @@ function isValidUrl(string) {
     }
 }
 
-// Função para preview da imagem (opcional)
 function previewImagem() {
     const imagemUrl = document.getElementById("imagem").value.trim();
     const previewContainer = document.getElementById("preview-imagem");
@@ -161,16 +154,13 @@ function previewImagem() {
     }
 }
 
-// Event listeners para melhor experiência do usuário
 document.addEventListener('DOMContentLoaded', function() {
-    // Adicionar evento de preview da imagem
     const campoImagem = document.getElementById("imagem");
     if (campoImagem) {
         campoImagem.addEventListener('input', previewImagem);
         campoImagem.addEventListener('blur', previewImagem);
     }
     
-    // Validar campos numéricos
     const campoCapacidade = document.getElementById("capacidade");
     const campoLucro = document.getElementById("lucro");
     
@@ -186,7 +176,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Impedir data no passado
     const campoData = document.getElementById("data");
     if (campoData) {
         const hoje = new Date().toISOString().split('T')[0];

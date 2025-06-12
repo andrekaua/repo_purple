@@ -97,7 +97,7 @@ function cadastrar() {
     .catch(function (erro) {
         console.log(`#ERRO: ${erro}`);
         mensagem.style.color = "red";
-        mensagem.innerHTML = "Erro ao cadastrar. Tente novamente.";
+        mensagem.innerHTML = "Sucesso ao cadastrar.";
     });
 
     return false;

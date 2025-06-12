@@ -5,7 +5,7 @@ function cadastrarEvento(req, res) {
     var nome = req.body.nome;
     var data = req.body.data;
     var local = req.body.local;
-    var capacidade = req.body.capacidade; // NOVO
+    var capacidade = req.body.capacidade;
     var meta_receita = req.body.meta_receita;
     var meta_lucro = req.body.meta_lucro;
     var imagem = req.body.imagem;
@@ -15,7 +15,7 @@ function cadastrarEvento(req, res) {
         nome,
         data,
         local,
-        capacidade, // NOVO
+        capacidade,
         meta_receita,
         meta_lucro,
         imagem
@@ -40,18 +40,6 @@ function cadastrarEvento(req, res) {
         });
     }
 
-    // Validar se a data não é no passado
-    const dataEvento = new Date(data);
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0); // Zerar horas para comparar apenas a data
-    
-    if (dataEvento < hoje) {
-        return res.status(400).json({
-            error: "A data do evento não pode ser no passado!"
-        });
-    }
-
-    // Valores padrão para campos opcionais
     local = local && local.trim() !== "" ? local.trim() : "";
     meta_receita = meta_receita ? parseFloat(meta_receita) : 0;
     meta_lucro = meta_lucro ? parseFloat(meta_lucro) : 0;
@@ -82,7 +70,7 @@ function cadastrarEvento(req, res) {
         nome.trim(),
         data,
         local,
-        capacidade, // NOVO
+        capacidade,
         meta_receita,
         meta_lucro,
         organizador_id,
@@ -141,7 +129,6 @@ function buscar_eventos(req, res) {
     entradaDadosModel.buscarEventos(organizador_id)
         .then(resultado => {
             console.log("Eventos encontrados:", resultado.length);
-            // Formatar dados para garantir consistência
             const eventosFormatados = resultado.map(evento => ({
                 id: evento.id,
                 nome: evento.nome || '',

@@ -10,7 +10,7 @@ function obterEventoId() {
     return urlParams.get('id');
 }
 
-// Carregar dados do evento quando a página carrega
+// Carregar dados do evento 
 document.addEventListener('DOMContentLoaded', function() {
     const eventoId = obterEventoId();
     if (eventoId) {
@@ -30,7 +30,7 @@ function carregarDadosEvento(eventoId) {
             return response.json();
         })
         .then(data => {
-            console.log('Dados recebidos:', data); // Debug
+            console.log('Dados recebidos:', data); 
             
             if (data && data.length > 0) {
                 const evento = data[0];
@@ -57,7 +57,7 @@ function carregarDadosEvento(eventoId) {
         });
 }
 
-// Popular campos do formulário do evento
+// Popular formulário
 function popularCamposEvento(evento) {
     document.getElementById('nome').value = evento.nome || '';
     
@@ -73,7 +73,7 @@ function popularCamposEvento(evento) {
     document.getElementById('lucro').value = evento.lucro_desejado || evento.meta_lucro || '';
 }
 
-// Atualizar tabela de gastos
+// Atualizar gastos
 function atualizarTabelaGastos() {
     const tbody = document.querySelector('#tabela_gastos tbody');
     tbody.innerHTML = '';
@@ -91,7 +91,7 @@ function atualizarTabelaGastos() {
     });
 }
 
-// Atualizar tabela de produtos
+// Atualizar produtos
 function atualizarTabelaProdutos() {
     const tbody = document.querySelector('#tabela_produtos tbody');
     tbody.innerHTML = '';
@@ -111,7 +111,7 @@ function atualizarTabelaProdutos() {
     });
 }
 
-// Atualizar tabela de ingressos
+// Atualizar ingressos
 function atualizarTabelaIngressos() {
     const tbody = document.querySelector('#tabela_ingressos tbody');
     tbody.innerHTML = '';
@@ -149,7 +149,7 @@ function limparCamposPopup(id) {
     inputs.forEach(input => input.value = '');
 }
 
-// Salvar novo gasto
+// Salvar  gasto
 function salvarNovoGasto() {
     const nome = document.getElementById('novo_gasto_nome').value;
     const valor = parseFloat(document.getElementById('novo_gasto_valor').value);
@@ -164,7 +164,7 @@ function salvarNovoGasto() {
     fecharPopup('popup_gasto');
 }
 
-// Salvar novo produto
+// Salvar  produto
 function salvarNovoProduto() {
     const nome = document.getElementById('novo_produto_nome').value;
     const preco = parseFloat(document.getElementById('novo_produto_preco').value);
@@ -181,7 +181,7 @@ function salvarNovoProduto() {
     fecharPopup('popup_produto');
 }
 
-// Salvar novo ingresso
+// Salvar  ingresso
 function salvarNovoIngresso() {
     // Adiciona opções fixas para o tipo de ingresso
     const tipoInput = document.getElementById('novo_ingresso_tipo');

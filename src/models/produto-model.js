@@ -5,7 +5,6 @@ function cadastrarVariosProdutos(produtos, quantidade, total, evento_id) {
         return Promise.reject("Nenhum produto para inserir.");
     }
 
-    // Escapar aspas simples nos nomes dos produtos para evitar SQL injection
     const valores = produtos.map(p => {
         const nomeEscapado = p.nome.replace(/'/g, "''");
         return `(${evento_id}, '${nomeEscapado}', ${p.valor}, ${p.vendido || 0}, ${p.meta || 0}, ${quantidade}, ${total})`;
